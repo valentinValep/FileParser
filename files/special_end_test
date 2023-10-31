@@ -1,0 +1,12 @@
+mod {
+	var
+}
+
+mod2 {
+	var attr1
+}
+
+mod3 {
+	var attr1,
+	var attr2
+}

@@ -1,0 +1,4 @@
+build/
+libfp.a
+tests
+.vscode

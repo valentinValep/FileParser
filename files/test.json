@@ -1,0 +1,21 @@
+{
+	"key": "value",
+	"number": 1,
+	"boolean": true,
+	"null": null
+	"object": {
+		"key": "value"
+	},
+	"array": [
+		"item1",
+		"item2"
+	],
+	"arrayOfObjects": [
+		{
+			"key": "value"
+		},
+		{
+			"key": "value"
+		}
+	]
+}

@@ -1,0 +1,29 @@
+module: {
+	"key": "value1" value2,
+	key: "value",
+	random,
+	"random",
+	"module": {
+		"key": "value"
+	},
+	module: {
+		"key": "value"
+	},
+	"module" {
+		"key": "value"
+	},
+	module {
+		"key": "value"
+	},
+	module_name module_var {
+		key: value
+	},
+	"array": [
+		"item1",
+		"item2"
+	],
+	array: [
+		"item1",
+		"item2"
+	]
+}
