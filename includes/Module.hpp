@@ -2,6 +2,7 @@
 
 #include "Object.hpp"
 #include "FileParser.hpp"
+#include "Token.hpp"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -50,7 +51,7 @@ namespace fp
 		void						addObject(Object *object);
 
 		// Methods
-		void						build_objects(std::vector<std::string>::iterator begin, std::vector<std::string>::iterator end);
+		void						build_objects(std::vector<Token>::iterator begin, std::vector<Token>::iterator end);
 		virtual void				print(int depth) const;
 		void				print() const;
 	};

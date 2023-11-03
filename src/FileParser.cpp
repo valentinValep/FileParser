@@ -1,4 +1,5 @@
 #include "FileParser.hpp"
+#include "Token.hpp"
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -135,25 +136,30 @@ namespace fp
 		return (buffer.str());
 	}
 
-	std::vector<std::string>	FileParser::_tokenize(const std::string &str)
+	std::vector<Token>	FileParser::_tokenize(const std::string &str)
 	{
-		std::vector<std::string>	tokens;
+		std::vector<Token>	tokens;
 		std::string					token;
-		std::string					separators = this->_line_separators + this->_bloc_open_separators + this->_bloc_close_separators + this->_white_spaces + this->_assignement;
+		std::string					separators;
+		int							row;
 
+		row = 1;
+		separators = this->_line_separators + this->_bloc_open_separators + this->_bloc_close_separators + this->_white_spaces + this->_assignement;
 		for (std::string::const_iterator it = str.begin(); it != str.end(); ++it)
 		{
+			if (*it == '\n')
+				row++;
 			if (separators.find(*it) == std::string::npos)
 				token += *it;
 			else
 			{
 				if (!token.empty())
 				{
-					tokens.push_back(token);
+					tokens.push_back(Token(token, row));
 					token.clear();
 				}
 				if (this->_white_spaces.find(*it) == std::string::npos)
-					tokens.push_back(std::string(1, *it));
+					tokens.push_back(Token(std::string(1, *it), row));
 			}
 		}
 		return (tokens);
@@ -161,9 +167,9 @@ namespace fp
 
 	Module *FileParser::parse()
 	{
-		std::string					fileContent = this->_openFile();
-		std::vector<std::string>	tokens;
-		Module	*mod = new Module(this);
+		std::string			fileContent = this->_openFile();
+		std::vector<Token>	tokens;
+		Module				*mod = new Module(this);
 
 		//std::cout << "\033[1m" << this->_fileName << "\033[0m:\nFile content: " << fileContent << std::endl;
 
@@ -197,5 +203,21 @@ namespace fp
 	bool FileParser::isAssignement(const std::string &str)
 	{
 		return (this->_assignement.find(str) != std::string::npos);
+	}
+
+	FileParser::FileParserSyntaxException::FileParserSyntaxException(const std::string &msg, int line)
+	{
+		std::stringstream ss;
+
+		ss << "Syntax error at line " << line << ": " << msg;
+		this->_msg = ss.str();
+	}
+
+	FileParser::FileParserSyntaxException::~FileParserSyntaxException() throw()
+	{}
+
+	const char *FileParser::FileParserSyntaxException::what() const throw()
+	{
+		return (this->_msg.c_str());
 	}
 }

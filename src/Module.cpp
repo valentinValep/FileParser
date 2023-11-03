@@ -58,27 +58,27 @@ namespace fp
 		return (WORD);
 	}
 
-	void Module::build_objects(std::vector<std::string>::iterator begin, std::vector<std::string>::iterator end)
+	void Module::build_objects(std::vector<Token>::iterator begin, std::vector<Token>::iterator end)
 	{
 		std::string					name;
 		std::vector<std::string>	attributes;
 		e_TokenType					token_type;
 		e_ParseState				parse_state = DEFAULT;
 		int							module_brace_count = 0;
-		std::vector<std::string>::iterator	module_begin;
+		std::vector<Token>::iterator	module_begin;
 
 		if (!this->_file_parser)
 			throw FileParser::FileParserException("internal error: FileParser can't be NULL to build Module objects");
-		for (std::vector<std::string>::iterator it = begin; it != end; ++it)
+		for (std::vector<Token>::iterator it = begin; it != end; ++it)
 		{
-			token_type = this->getTokenType(*it);
+			token_type = this->getTokenType((*it).getStr());
 			if (parse_state == CAN_NEW_LINE)
 			{
 				parse_state = DEFAULT;
 				if (token_type == LINE_SEPARATOR)
 					continue;
 				else if (token_type != WORD)
-					throw FileParser::FileParserException("Unexpected token");
+					throw FileParser::FileParserSyntaxException("Unexpected token", (*it).getLine());
 			}
 			if (parse_state == MODULE)
 			{
@@ -89,7 +89,7 @@ namespace fp
 					if (module_brace_count == 0)
 					{
 						if (name.empty())
-							throw FileParser::FileParserException("Module name can't be empty");
+							throw FileParser::FileParserSyntaxException("Module name can't be empty", (*it).getLine());
 						Module *mod = new Module(name, this->_file_parser);
 						_objects.push_back(mod);
 						mod->setAttributes(attributes);
@@ -105,12 +105,12 @@ namespace fp
 			else if (parse_state == VARIABLE)
 			{
 				if (token_type != WORD)
-					throw FileParser::FileParserException("Assignement must be followed by a value");
+					throw FileParser::FileParserSyntaxException("Assignement must be followed by a value", (*it).getLine());
 				if (name.empty())
-					throw FileParser::FileParserException("Variable name can't be empty");
+					throw FileParser::FileParserSyntaxException("Variable name can't be empty", (*it).getLine());
 				Variable *var = new Variable(name);
 				_objects.push_back(var);
-				var->setValue(*it);
+				var->setValue((*it).getStr());
 				var->setAttributes(attributes);
 				name.clear();
 				attributes.clear();
@@ -119,15 +119,15 @@ namespace fp
 			else if (parse_state == NEED_NEW_LINE)
 			{
 				if (token_type != LINE_SEPARATOR)
-					throw FileParser::FileParserException("Variable must be followed by a line separator");
+					throw FileParser::FileParserSyntaxException("Variable must be followed by a line separator", (*it).getLine());
 				parse_state = DEFAULT;
 			}
 			else if (token_type == WORD)
 			{
 				if (name.empty())
-					name = *it;
+					name = (*it).getStr();
 				else
-					attributes.push_back(*it);
+					attributes.push_back((*it).getStr());
 			}
 			else if (token_type == LINE_SEPARATOR)
 			{
@@ -150,7 +150,7 @@ namespace fp
 			}
 			else if (token_type == CLOSE_BRACE)
 			{
-				throw FileParser::FileParserException("Unexpected close brace");
+				throw FileParser::FileParserSyntaxException("Unexpected close brace", (*it).getLine());
 			}
 		}
 		if (parse_state != DEFAULT && parse_state != CAN_NEW_LINE && parse_state != NEED_NEW_LINE)

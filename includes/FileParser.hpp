@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Module.hpp"
+#include "Token.hpp"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -29,7 +30,7 @@ namespace fp
 
 		// Methods
 		std::string					_openFile();
-		std::vector<std::string>	_tokenize(const std::string &str);
+		std::vector<Token>			_tokenize(const std::string &str);
 	public:
 		// Constructors & Destructor
 		FileParser();
@@ -72,6 +73,16 @@ namespace fp
 		public:
 			FileParserException(const std::string &msg);
 			virtual ~FileParserException() throw();
+			virtual const char	*what() const throw();
+		};
+
+		class FileParserSyntaxException: public std::exception
+		{
+		private:
+			std::string		_msg;
+		public:
+			FileParserSyntaxException(const std::string &msg, int line);
+			virtual ~FileParserSyntaxException() throw();
 			virtual const char	*what() const throw();
 		};
 	};

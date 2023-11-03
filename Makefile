@@ -13,6 +13,7 @@ OBJ := $(BUILD_DIR)FileParser.o \
 	$(BUILD_DIR)Object.o \
 	$(BUILD_DIR)Module.o \
 	$(BUILD_DIR)Variable.o \
+	$(BUILD_DIR)Token.o \
 
 TEST_OBJ := $(BUILD_DIR)tests/test.o
 
