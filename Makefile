@@ -1,5 +1,5 @@
 LIB_NAME := libfp.a
-TEST_NAME := tests
+TEST_NAME := run_tests
 
 CXX := c++
 

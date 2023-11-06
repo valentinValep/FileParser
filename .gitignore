@@ -1,4 +1,4 @@
 build/
 libfp.a
-tests
+run_tests
 .vscode
