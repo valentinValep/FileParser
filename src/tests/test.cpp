@@ -1138,7 +1138,15 @@ int	main(void)
 	if ((ret = webserv_conf()))
 		global_ret += ret;
 
+	// variable value presence tests
 
+	// module name presence tests
+
+	// attribute presence tests
+
+	// whitelist tests
+
+	// last attribute become value tests
 
 	// @TODO test different file parsers (variables value presence, etc.)
 
