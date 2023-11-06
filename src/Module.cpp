@@ -18,7 +18,10 @@ namespace fp
 	{}
 
 	Module::~Module()
-	{}
+	{
+		for (std::vector<Object *>::iterator it = this->_objects.begin(); it != this->_objects.end(); ++it)
+			delete *it;
+	}
 
 	bool Module::operator==(const Object &src) const
 	{
@@ -27,7 +30,14 @@ namespace fp
 		if (this->getType() != src.getType())
 			return (false);
 		const Module *mod = dynamic_cast<const Module *>(&src);
-		return (Object::operator==(src) && this->_objects == mod->_objects);
+		if (this->_objects.size() != mod->_objects.size())
+			return (false);
+		for (size_t i = 0; i < this->_objects.size(); i++)
+		{
+			if (!(*this->_objects[i] == *mod->_objects[i]))
+				return (false);
+		}
+		return (Object::operator==(src));
 	}
 
 	Module	&Module::operator=(const Module &src)
@@ -99,8 +109,8 @@ namespace fp
 				{
 					if (module_brace_count == 0)
 					{
-						if (name.empty())
-							throw FileParser::FileParserSyntaxException("Module name can't be empty", this->_file_parser->getFileName(), (*it).getLine());
+						if (name.empty() && this->_file_parser->getModuleNamePresence() == REQUIRED)
+							throw FileParser::FileParserSyntaxException("Modules need name", this->_file_parser->getFileName(), (*it).getLine());
 						Module *mod = new Module(name, this->_file_parser);
 						_objects.push_back(mod);
 						mod->setAttributes(attributes);

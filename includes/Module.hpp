@@ -43,7 +43,7 @@ namespace fp
 		Module(FileParser *file_parser);
 		Module(const std::string &name, FileParser *file_parser);
 		Module	&operator=(const Module &src);
-		~Module();
+		virtual ~Module();
 
 		// Operators
 		virtual bool	operator==(const Object &src) const;

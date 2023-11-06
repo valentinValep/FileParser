@@ -45,6 +45,11 @@ namespace fp
 		this->_attributes = attributes;
 	}
 
+	void Object::addAttribute(const std::string &attribute)
+	{
+		this->_attributes.push_back(attribute);
+	}
+
 	const std::vector<std::string> &Object::getAttributes() const
 	{
 		return (this->_attributes);

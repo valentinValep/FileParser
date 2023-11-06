@@ -15,7 +15,8 @@ namespace fp
 		_bloc_open_separators(DEFAULT_BLOC_OPEN),
 		_bloc_close_separators(DEFAULT_BLOC_CLOSE),
 		_assignement(DEFAULT_ASSIGNEMENT),
-		_variable_value_presence(OPTIONAL)
+		_variable_value_presence(OPTIONAL),
+		_module_name_presence(OPTIONAL)
 	{}
 
 	FileParser::FileParser(const FileParser &src):
@@ -25,7 +26,8 @@ namespace fp
 		_bloc_open_separators(src._bloc_open_separators),
 		_bloc_close_separators(src._bloc_close_separators),
 		_assignement(src._assignement),
-		_variable_value_presence(src._variable_value_presence)
+		_variable_value_presence(src._variable_value_presence),
+		_module_name_presence(src._module_name_presence)
 	{}
 
 	FileParser::FileParser(const std::string &fileName):
@@ -35,7 +37,8 @@ namespace fp
 		_bloc_open_separators(DEFAULT_BLOC_OPEN),
 		_bloc_close_separators(DEFAULT_BLOC_CLOSE),
 		_assignement(DEFAULT_ASSIGNEMENT),
-		_variable_value_presence(OPTIONAL)
+		_variable_value_presence(OPTIONAL),
+		_module_name_presence(OPTIONAL)
 	{}
 
 	FileParser::~FileParser()
@@ -117,6 +120,11 @@ namespace fp
 	e_Presence FileParser::getVariableValuePresence() const
 	{
 		return (this->_variable_value_presence);
+	}
+
+	e_Presence FileParser::getModuleNamePresence() const
+	{
+		return (this->_module_name_presence);
 	}
 
 	FileParser::FileParserException::FileParserException(const std::string &msg): _msg(msg)
@@ -213,19 +221,40 @@ namespace fp
 		return (this->_assignement.find(str) != std::string::npos);
 	}
 
-	void FileParser::banVariableValue()
+	FileParser	*FileParser::banVariableValue()
 	{
 		this->_variable_value_presence = FORBIDDEN;
+		return (this);
 	}
 
-	void FileParser::forceVariableValue()
+	FileParser	*FileParser::forceVariableValue()
 	{
 		this->_variable_value_presence = REQUIRED;
+		return (this);
 	}
 
-	void FileParser::allowVariableValue()
+	FileParser	*FileParser::allowVariableValue()
 	{
 		this->_variable_value_presence = OPTIONAL;
+		return (this);
+	}
+
+	FileParser *FileParser::banModuleName()
+	{
+		this->_module_name_presence = FORBIDDEN;
+		return (this);
+	}
+
+	FileParser *FileParser::allowModuleName()
+	{
+		this->_module_name_presence = OPTIONAL;
+		return (this);
+	}
+
+	FileParser *FileParser::forceModuleName()
+	{
+		this->_module_name_presence = REQUIRED;
+		return (this);
 	}
 
 	FileParser::FileParserSyntaxException::FileParserSyntaxException(const std::string &msg, std::string file, int line)

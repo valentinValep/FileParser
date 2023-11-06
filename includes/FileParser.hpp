@@ -35,6 +35,7 @@ namespace fp
 		std::string					_bloc_close_separators;
 		std::string					_assignement;
 		e_Presence					_variable_value_presence;
+		e_Presence					_module_name_presence;
 
 		// Methods
 		std::string					_openFile();
@@ -61,6 +62,7 @@ namespace fp
 		const std::string	&getAssignement() const;
 		void				setAssignement(const std::string &assignement);
 		e_Presence			getVariableValuePresence() const;
+		e_Presence			getModuleNamePresence() const;
 
 		// Methods
 
@@ -75,9 +77,12 @@ namespace fp
 		bool				isBlocCloseSeparator(const std::string &str);
 		bool				isAssignement(const std::string &str);
 
-		void				banVariableValue();
-		void				allowVariableValue();
-		void				forceVariableValue();
+		FileParser			*banVariableValue();
+		FileParser			*allowVariableValue();
+		FileParser			*forceVariableValue();
+		FileParser			*banModuleName();
+		FileParser			*allowModuleName();
+		FileParser			*forceModuleName();
 
 		// Exceptions
 		class FileParserException: public std::exception

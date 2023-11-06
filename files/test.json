@@ -2,7 +2,7 @@
 	"key": "value",
 	"number": 1,
 	"boolean": true,
-	"null": null
+	"null": null,
 	"object": {
 		"key": "value"
 	},

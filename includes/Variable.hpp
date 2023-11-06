@@ -15,8 +15,8 @@ namespace fp
 		Variable();
 		Variable(const Variable &src);
 		Variable(const std::string &name);
-		~Variable();
 		Variable	&operator=(const Variable &src);
+		virtual ~Variable();
 
 		// Operators
 		virtual bool	operator==(const Object &src) const;

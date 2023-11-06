@@ -15,8 +15,8 @@ namespace fp
 		Object();
 		Object(const Object &src);
 		Object(const std::string &name);
-		~Object();
 		Object	&operator=(const Object &src);
+		virtual ~Object();
 
 		// Operators
 		virtual bool	operator==(const Object &src) const;
@@ -26,6 +26,7 @@ namespace fp
 		void							setName(const std::string &name);
 		const std::vector<std::string>	&getAttributes() const;
 		void							setAttributes(const std::vector<std::string> &attributes);
+		void							addAttribute(const std::string &attribute);
 
 		// Methods
 		virtual void				print(int depth) const;
