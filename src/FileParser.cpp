@@ -14,7 +14,8 @@ namespace fp
 		_line_separators(DEFAULT_LINE_SEPARATOR),
 		_bloc_open_separators(DEFAULT_BLOC_OPEN),
 		_bloc_close_separators(DEFAULT_BLOC_CLOSE),
-		_assignement(DEFAULT_ASSIGNEMENT)
+		_assignement(DEFAULT_ASSIGNEMENT),
+		_variable_value_presence(OPTIONAL)
 	{}
 
 	FileParser::FileParser(const FileParser &src):
@@ -23,7 +24,8 @@ namespace fp
 		_line_separators(src._line_separators),
 		_bloc_open_separators(src._bloc_open_separators),
 		_bloc_close_separators(src._bloc_close_separators),
-		_assignement(src._assignement)
+		_assignement(src._assignement),
+		_variable_value_presence(src._variable_value_presence)
 	{}
 
 	FileParser::FileParser(const std::string &fileName):
@@ -32,7 +34,8 @@ namespace fp
 		_line_separators(DEFAULT_LINE_SEPARATOR),
 		_bloc_open_separators(DEFAULT_BLOC_OPEN),
 		_bloc_close_separators(DEFAULT_BLOC_CLOSE),
-		_assignement(DEFAULT_ASSIGNEMENT)
+		_assignement(DEFAULT_ASSIGNEMENT),
+		_variable_value_presence(OPTIONAL)
 	{}
 
 	FileParser::~FileParser()
@@ -109,6 +112,11 @@ namespace fp
 	const std::string &FileParser::getLineSeparators() const
 	{
 		return (this->_line_separators);
+	}
+
+	e_Presence FileParser::getVariableValuePresence() const
+	{
+		return (this->_variable_value_presence);
 	}
 
 	FileParser::FileParserException::FileParserException(const std::string &msg): _msg(msg)
@@ -205,11 +213,26 @@ namespace fp
 		return (this->_assignement.find(str) != std::string::npos);
 	}
 
-	FileParser::FileParserSyntaxException::FileParserSyntaxException(const std::string &msg, int line)
+	void FileParser::banVariableValue()
+	{
+		this->_variable_value_presence = FORBIDDEN;
+	}
+
+	void FileParser::forceVariableValue()
+	{
+		this->_variable_value_presence = REQUIRED;
+	}
+
+	void FileParser::allowVariableValue()
+	{
+		this->_variable_value_presence = OPTIONAL;
+	}
+
+	FileParser::FileParserSyntaxException::FileParserSyntaxException(const std::string &msg, std::string file, int line)
 	{
 		std::stringstream ss;
 
-		ss << "Syntax error at line " << line << ": " << msg;
+		ss << file << ":" << line << ": " << "Syntax error: " << msg;
 		this->_msg = ss.str();
 	}
 

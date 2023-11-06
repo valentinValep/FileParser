@@ -18,6 +18,9 @@ namespace fp
 		~Object();
 		Object	&operator=(const Object &src);
 
+		// Operators
+		virtual bool	operator==(const Object &src) const;
+
 		// Getters & Setters
 		const std::string				&getName() const;
 		void							setName(const std::string &name);
@@ -26,5 +29,6 @@ namespace fp
 
 		// Methods
 		virtual void				print(int depth) const;
+		virtual std::string			getType() const = 0;
 	};
 }

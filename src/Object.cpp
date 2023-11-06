@@ -25,6 +25,11 @@ namespace fp
 		return (*this);
 	}
 
+	bool Object::operator==(const Object &src) const
+	{
+		return (this->_name == src._name && this->_attributes == src._attributes);
+	}
+
 	const std::string &Object::getName() const
 	{
 		return (this->_name);

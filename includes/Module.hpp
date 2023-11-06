@@ -45,6 +45,9 @@ namespace fp
 		Module	&operator=(const Module &src);
 		~Module();
 
+		// Operators
+		virtual bool	operator==(const Object &src) const;
+
 		// Getters & Setters
 		const std::vector<Object*>	&getObjects() const;
 		void						setObjects(const std::vector<Object*> &objects);
@@ -52,8 +55,9 @@ namespace fp
 
 		// Methods
 		void						build_objects(std::vector<Token>::iterator begin, std::vector<Token>::iterator end);
+		virtual std::string			getType() const;
 		virtual void				print(int depth) const;
-		void				print() const;
+		void						print() const;
 	};
 }
 

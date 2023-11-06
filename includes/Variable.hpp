@@ -9,6 +9,7 @@ namespace fp
 	{
 	private:
 		std::string		value;
+		bool			_has_value;
 	public:
 		// Constructors & Destructor
 		Variable();
@@ -17,11 +18,16 @@ namespace fp
 		~Variable();
 		Variable	&operator=(const Variable &src);
 
+		// Operators
+		virtual bool	operator==(const Object &src) const;
+
 		// Getters & Setters
 		const std::string	&getValue() const;
 		void				setValue(const std::string &value);
+		bool				hasValue() const;
 
 		// Methods
 		virtual void				print(int depth) const;
+		virtual std::string			getType() const;
 	};
 }

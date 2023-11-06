@@ -20,6 +20,16 @@ namespace fp
 	Module::~Module()
 	{}
 
+	bool Module::operator==(const Object &src) const
+	{
+		if (this == &src)
+			return (true);
+		if (this->getType() != src.getType())
+			return (false);
+		const Module *mod = dynamic_cast<const Module *>(&src);
+		return (Object::operator==(src) && this->_objects == mod->_objects);
+	}
+
 	Module	&Module::operator=(const Module &src)
 	{
 		if (this == &src)
@@ -69,6 +79,7 @@ namespace fp
 
 		if (!this->_file_parser)
 			throw FileParser::FileParserException("internal error: FileParser can't be NULL to build Module objects");
+		// Parse tokens
 		for (std::vector<Token>::iterator it = begin; it != end; ++it)
 		{
 			token_type = this->getTokenType((*it).getStr());
@@ -78,7 +89,7 @@ namespace fp
 				if (token_type == LINE_SEPARATOR)
 					continue;
 				else if (token_type != WORD)
-					throw FileParser::FileParserSyntaxException("Unexpected token", (*it).getLine());
+					throw FileParser::FileParserSyntaxException("Unexpected token", this->_file_parser->getFileName(), (*it).getLine());
 			}
 			if (parse_state == MODULE)
 			{
@@ -89,7 +100,7 @@ namespace fp
 					if (module_brace_count == 0)
 					{
 						if (name.empty())
-							throw FileParser::FileParserSyntaxException("Module name can't be empty", (*it).getLine());
+							throw FileParser::FileParserSyntaxException("Module name can't be empty", this->_file_parser->getFileName(), (*it).getLine());
 						Module *mod = new Module(name, this->_file_parser);
 						_objects.push_back(mod);
 						mod->setAttributes(attributes);
@@ -102,12 +113,14 @@ namespace fp
 					--module_brace_count;
 				}
 			}
-			else if (parse_state == VARIABLE)
+			else if (parse_state == VARIABLE && token_type != OPEN_BRACE)
 			{
+				if (this->_file_parser->getVariableValuePresence() == FORBIDDEN)
+					throw FileParser::FileParserSyntaxException("Variables can't have value", this->_file_parser->getFileName(), (*it).getLine());
 				if (token_type != WORD)
-					throw FileParser::FileParserSyntaxException("Assignement must be followed by a value", (*it).getLine());
+					throw FileParser::FileParserSyntaxException("Assignement must be followed by a value", this->_file_parser->getFileName(), (*it).getLine());
 				if (name.empty())
-					throw FileParser::FileParserSyntaxException("Variable name can't be empty", (*it).getLine());
+					throw FileParser::FileParserSyntaxException("Variable name can't be empty", this->_file_parser->getFileName(), (*it).getLine());
 				Variable *var = new Variable(name);
 				_objects.push_back(var);
 				var->setValue((*it).getStr());
@@ -119,7 +132,7 @@ namespace fp
 			else if (parse_state == NEED_NEW_LINE)
 			{
 				if (token_type != LINE_SEPARATOR)
-					throw FileParser::FileParserSyntaxException("Variable must be followed by a line separator", (*it).getLine());
+					throw FileParser::FileParserSyntaxException("Variable must be followed by a line separator", this->_file_parser->getFileName(), (*it).getLine());
 				parse_state = DEFAULT;
 			}
 			else if (token_type == WORD)
@@ -131,10 +144,10 @@ namespace fp
 			}
 			else if (token_type == LINE_SEPARATOR)
 			{
+				if (this->_file_parser->getVariableValuePresence() == REQUIRED)
+					throw FileParser::FileParserSyntaxException("Variables must have a value", this->_file_parser->getFileName(), (*it).getLine());
 				Variable *var = new Variable(name);
 				_objects.push_back(var);
-				var->setValue(attributes.back());
-				attributes.pop_back();
 				_objects.back()->setAttributes(attributes);
 				name.clear();
 				attributes.clear();
@@ -150,19 +163,26 @@ namespace fp
 			}
 			else if (token_type == CLOSE_BRACE)
 			{
-				throw FileParser::FileParserSyntaxException("Unexpected close brace", (*it).getLine());
+				throw FileParser::FileParserSyntaxException("Unexpected close brace", this->_file_parser->getFileName(), (*it).getLine());
 			}
 		}
+
+		// End of file
 		if (parse_state != DEFAULT && parse_state != CAN_NEW_LINE && parse_state != NEED_NEW_LINE)
 			throw FileParser::FileParserException("Unexpected end of file");
 		if (!name.empty())
 		{
+			if (this->_file_parser->getVariableValuePresence() == REQUIRED)
+				throw FileParser::FileParserSyntaxException("Variables must have a value", this->_file_parser->getFileName(), (*end).getLine());
 			Variable *var = new Variable(name);
 			_objects.push_back(var);
-			var->setValue(attributes.back());
-			attributes.pop_back();
 			_objects.back()->setAttributes(attributes);
 		}
+	}
+
+	std::string Module::getType() const
+	{
+		return ("Module");
 	}
 
 	void Module::print() const
