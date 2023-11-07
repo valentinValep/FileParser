@@ -6,6 +6,8 @@ FileParser is a c++ library that can be used to parse different file types. The 
 # ROADMAP
 - Add whitelist for module names
 - Add whitelist for variable names
+- Add requirement list for mix module names and variable names (ex: "module1.variable1")
+- Add a check of double like requirement list
 - variable value presence (tests)
 - module name presence (tests)
 - attribute presence
