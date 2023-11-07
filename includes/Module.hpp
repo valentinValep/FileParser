@@ -34,14 +34,16 @@ namespace fp
 	private:
 		FileParser				*_file_parser;
 		std::vector<Object*>	_objects;
+		std::string				_path;
 
 		Module();
 		e_TokenType	getTokenType(const std::string &token);
+		void		addNewVariable(const std::string &name, const std::string &value, const std::vector<std::string> &attributes, int line);
 	public:
 		// Constructors & Destructor
 		Module(const Module &src);
-		Module(FileParser *file_parser);
-		Module(const std::string &name, FileParser *file_parser);
+		Module(FileParser *file_parser, const std::string &path);
+		Module(const std::string &name, FileParser *file_parser, const std::string &path);
 		Module	&operator=(const Module &src);
 		virtual ~Module();
 

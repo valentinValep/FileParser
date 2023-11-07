@@ -7,8 +7,8 @@ int	equal_operator_test()
 {
 	fp::FileParser	fp;
 	{
-		fp::Module		expected("1", &fp);
-		fp::Module		expected2("2", &fp);
+		fp::Module		expected("1", &fp, "");
+		fp::Module		expected2("2", &fp, "");
 
 		if (expected == expected2)
 		{
@@ -17,8 +17,8 @@ int	equal_operator_test()
 		}
 	}
 	{
-		fp::Module		expected("name", &fp);
-		fp::Module		expected2("name", &fp);
+		fp::Module		expected("name", &fp, "");
+		fp::Module		expected2("name", &fp, "");
 
 		if (!(expected == expected2))
 		{
@@ -27,8 +27,28 @@ int	equal_operator_test()
 		}
 	}
 	{
-		fp::Module		expected("name", &fp);
-		fp::Module		expected2("name", &fp);
+		fp::Module		expected("name", &fp, "/");
+		fp::Module		expected2("name", &fp, "/");
+
+		if (!(expected == expected2))
+		{
+			std::cerr << __FILE__ << ":" << __LINE__ << ": " << "equal_operator_test failed: expected != expected2" << std::endl;
+			return (1);
+		}
+	}
+	{
+		fp::Module		expected("name", &fp, "/1");
+		fp::Module		expected2("name", &fp, "/");
+
+		if (expected == expected2)
+		{
+			std::cerr << __FILE__ << ":" << __LINE__ << ": " << "equal_operator_test failed: expected == expected2" << std::endl;
+			return (1);
+		}
+	}
+	{
+		fp::Module		expected("name", &fp, "");
+		fp::Module		expected2("name", &fp, "");
 		expected.addAttribute("attr");
 
 		if (expected == expected2)
@@ -38,8 +58,8 @@ int	equal_operator_test()
 		}
 	}
 	{
-		fp::Module		expected("name", &fp);
-		fp::Module		expected2("name", &fp);
+		fp::Module		expected("name", &fp, "");
+		fp::Module		expected2("name", &fp, "");
 		expected.addAttribute("attr");
 		expected2.addAttribute("attr");
 
@@ -50,8 +70,8 @@ int	equal_operator_test()
 		}
 	}
 	{
-		fp::Module		expected("name", &fp);
-		fp::Module		expected2("name", &fp);
+		fp::Module		expected("name", &fp, "");
+		fp::Module		expected2("name", &fp, "");
 		expected.addAttribute("attr");
 		expected2.addAttribute("attr");
 		expected.addAttribute("attr2");
@@ -63,8 +83,8 @@ int	equal_operator_test()
 		}
 	}
 	{
-		fp::Module		expected("name", &fp);
-		fp::Module		expected2("name", &fp);
+		fp::Module		expected("name", &fp, "");
+		fp::Module		expected2("name", &fp, "");
 		fp::Variable	*var = new fp::Variable("var");
 		expected.addObject(var);
 
@@ -75,8 +95,8 @@ int	equal_operator_test()
 		}
 	}
 	{
-		fp::Module		expected("name", &fp);
-		fp::Module		expected2("name", &fp);
+		fp::Module		expected("name", &fp, "");
+		fp::Module		expected2("name", &fp, "");
 		fp::Variable	*var = new fp::Variable("var");
 		expected.addObject(var);
 		fp::Variable	*var2 = new fp::Variable("var");
@@ -89,8 +109,8 @@ int	equal_operator_test()
 		}
 	}
 	{
-		fp::Module		expected("name", &fp);
-		fp::Module		expected2("name", &fp);
+		fp::Module		expected("name", &fp, "");
+		fp::Module		expected2("name", &fp, "");
 		fp::Variable	*var = new fp::Variable("var");
 		var->addAttribute("attr");
 		expected.addObject(var);
@@ -104,8 +124,8 @@ int	equal_operator_test()
 		}
 	}
 	{
-		fp::Module		expected("name", &fp);
-		fp::Module		expected2("name", &fp);
+		fp::Module		expected("name", &fp, "");
+		fp::Module		expected2("name", &fp, "");
 		fp::Variable	*var = new fp::Variable("var");
 		var->addAttribute("attr");
 		expected.addObject(var);
@@ -120,8 +140,8 @@ int	equal_operator_test()
 		}
 	}
 	{
-		fp::Module		expected("name", &fp);
-		fp::Module		expected2("name", &fp);
+		fp::Module		expected("name", &fp, "");
+		fp::Module		expected2("name", &fp, "");
 		fp::Variable	*var = new fp::Variable("var");
 		var->addAttribute("attr");
 		var->setValue("value");
@@ -137,8 +157,8 @@ int	equal_operator_test()
 		}
 	}
 	{
-		fp::Module		expected("name", &fp);
-		fp::Module		expected2("name", &fp);
+		fp::Module		expected("name", &fp, "");
+		fp::Module		expected2("name", &fp, "");
 		fp::Variable	*var = new fp::Variable("var");
 		var->addAttribute("attr");
 		var->setValue("value");
@@ -155,8 +175,8 @@ int	equal_operator_test()
 		}
 	}
 	{
-		fp::Module		expected("name", &fp);
-		fp::Module		expected2("name", &fp);
+		fp::Module		expected("name", &fp, "");
+		fp::Module		expected2("name", &fp, "");
 		fp::Variable	*var = new fp::Variable("var");
 		var->addAttribute("attr1");
 		var->setValue("value");
@@ -173,8 +193,8 @@ int	equal_operator_test()
 		}
 	}
 	{
-		fp::Module		expected("name", &fp);
-		fp::Module		expected2("name", &fp);
+		fp::Module		expected("name", &fp, "");
+		fp::Module		expected2("name", &fp, "");
 		fp::Variable	*var = new fp::Variable("var");
 		var->addAttribute("attr");
 		var->setValue("value1");
@@ -191,8 +211,8 @@ int	equal_operator_test()
 		}
 	}
 	{
-		fp::Module		expected("name", &fp);
-		fp::Module		expected2("name", &fp);
+		fp::Module		expected("name", &fp, "");
+		fp::Module		expected2("name", &fp, "");
 		fp::Variable	*var = new fp::Variable("var");
 		var->addAttribute("attr");
 		var->setValue("value");
@@ -209,8 +229,8 @@ int	equal_operator_test()
 		}
 	}
 	{
-		fp::Module		expected("name", &fp);
-		fp::Module		expected2("name", &fp);
+		fp::Module		expected("name", &fp, "");
+		fp::Module		expected2("name", &fp, "");
 		fp::Variable	*var = new fp::Variable("var");
 		var->addAttribute("attr");
 		var->setValue("value");
@@ -227,9 +247,9 @@ int	equal_operator_test()
 		}
 	}
 	{
-		fp::Module		expected("name", &fp);
-		fp::Module		expected2("name", &fp);
-		fp::Module		*mod = new fp::Module("mod", &fp);
+		fp::Module		expected("name", &fp, "");
+		fp::Module		expected2("name", &fp, "");
+		fp::Module		*mod = new fp::Module("mod", &fp, "name/");
 		expected.addObject(mod);
 
 		if (expected == expected2)
@@ -239,11 +259,11 @@ int	equal_operator_test()
 		}
 	}
 	{
-		fp::Module		expected("name", &fp);
-		fp::Module		expected2("name", &fp);
-		fp::Module		*mod = new fp::Module("mod", &fp);
+		fp::Module		expected("name", &fp, "");
+		fp::Module		expected2("name", &fp, "");
+		fp::Module		*mod = new fp::Module("mod", &fp, "name/");
 		expected.addObject(mod);
-		fp::Module		*mod2 = new fp::Module("mod", &fp);
+		fp::Module		*mod2 = new fp::Module("mod", &fp, "name/");
 		expected2.addObject(mod2);
 
 		if (!(expected == expected2))
@@ -253,11 +273,11 @@ int	equal_operator_test()
 		}
 	}
 	{
-		fp::Module		expected("name", &fp);
-		fp::Module		expected2("name", &fp);
-		fp::Module		*mod = new fp::Module("mod", &fp);
+		fp::Module		expected("name", &fp, "");
+		fp::Module		expected2("name", &fp, "");
+		fp::Module		*mod = new fp::Module("mod", &fp, "name/");
 		expected.addObject(mod);
-		fp::Module		*mod2 = new fp::Module("mod2", &fp);
+		fp::Module		*mod2 = new fp::Module("mod2", &fp, "name/");
 		expected2.addObject(mod2);
 
 		if (expected == expected2)
@@ -267,12 +287,12 @@ int	equal_operator_test()
 		}
 	}
 	{
-		fp::Module		expected("name", &fp);
-		fp::Module		expected2("name", &fp);
-		fp::Module		*mod = new fp::Module("mod", &fp);
+		fp::Module		expected("name", &fp, "");
+		fp::Module		expected2("name", &fp, "");
+		fp::Module		*mod = new fp::Module("mod", &fp, "name/");
 		expected.addObject(mod);
 		mod->addAttribute("attr");
-		fp::Module		*mod2 = new fp::Module("mod", &fp);
+		fp::Module		*mod2 = new fp::Module("mod", &fp, "name/");
 		expected2.addObject(mod2);
 
 		if (expected == expected2)
@@ -282,12 +302,12 @@ int	equal_operator_test()
 		}
 	}
 	{
-		fp::Module		expected("name", &fp);
-		fp::Module		expected2("name", &fp);
-		fp::Module		*mod = new fp::Module("mod", &fp);
+		fp::Module		expected("name", &fp, "");
+		fp::Module		expected2("name", &fp, "");
+		fp::Module		*mod = new fp::Module("mod", &fp, "name/");
 		expected.addObject(mod);
 		mod->addAttribute("attr");
-		fp::Module		*mod2 = new fp::Module("mod", &fp);
+		fp::Module		*mod2 = new fp::Module("mod", &fp, "name/");
 		expected2.addObject(mod2);
 		mod2->addAttribute("attr");
 
@@ -298,11 +318,11 @@ int	equal_operator_test()
 		}
 	}
 	{
-		fp::Module		expected("name", &fp);
-		fp::Module		expected2("name", &fp);
-		fp::Module		*mod = new fp::Module("mod", &fp);
+		fp::Module		expected("name", &fp, "");
+		fp::Module		expected2("name", &fp, "");
+		fp::Module		*mod = new fp::Module("mod", &fp, "name/");
 		expected.addObject(mod);
-		fp::Module		*mod2 = new fp::Module("mod", &fp);
+		fp::Module		*mod2 = new fp::Module("mod", &fp, "name/");
 		expected2.addObject(mod2);
 		fp::Variable	*var = new fp::Variable("var");
 		mod->addObject(var);
@@ -314,11 +334,11 @@ int	equal_operator_test()
 		}
 	}
 	{
-		fp::Module		expected("name", &fp);
-		fp::Module		expected2("name", &fp);
-		fp::Module		*mod = new fp::Module("mod", &fp);
+		fp::Module		expected("name", &fp, "");
+		fp::Module		expected2("name", &fp, "");
+		fp::Module		*mod = new fp::Module("mod", &fp, "name/");
 		expected.addObject(mod);
-		fp::Module		*mod2 = new fp::Module("mod", &fp);
+		fp::Module		*mod2 = new fp::Module("mod", &fp, "name/");
 		expected2.addObject(mod2);
 		fp::Variable	*var = new fp::Variable("var");
 		mod->addObject(var);
@@ -332,11 +352,11 @@ int	equal_operator_test()
 		}
 	}
 	{
-		fp::Module		expected("name", &fp);
-		fp::Module		expected2("name", &fp);
-		fp::Module		*mod = new fp::Module("mod", &fp);
+		fp::Module		expected("name", &fp, "");
+		fp::Module		expected2("name", &fp, "");
+		fp::Module		*mod = new fp::Module("mod", &fp, "name/");
 		expected.addObject(mod);
-		fp::Module		*mod2 = new fp::Module("mod", &fp);
+		fp::Module		*mod2 = new fp::Module("mod", &fp, "name/");
 		expected2.addObject(mod2);
 		fp::Variable	*var = new fp::Variable("var");
 		mod->addObject(var);
@@ -351,11 +371,11 @@ int	equal_operator_test()
 		}
 	}
 	{
-		fp::Module		expected("name", &fp);
-		fp::Module		expected2("name", &fp);
-		fp::Module		*mod = new fp::Module("mod", &fp);
+		fp::Module		expected("name", &fp, "");
+		fp::Module		expected2("name", &fp, "");
+		fp::Module		*mod = new fp::Module("mod", &fp, "name/");
 		expected.addObject(mod);
-		fp::Module		*mod2 = new fp::Module("mod", &fp);
+		fp::Module		*mod2 = new fp::Module("mod", &fp, "name/");
 		expected2.addObject(mod2);
 		fp::Variable	*var = new fp::Variable("var");
 		mod->addObject(var);
@@ -377,14 +397,14 @@ int	simple_module_test()
 {
 	fp::FileParser	fp;
 	fp::Module 		*result;
-	fp::Module		expected("", &fp);
+	fp::Module		expected("", &fp, "");
 
 	// File parsing
 	fp.setFileName("files/simple_module");
 	result = fp.parse();
 
 	// Expected module
-	fp::Module		*mod = new fp::Module("module", &fp);
+	fp::Module		*mod = new fp::Module("module", &fp, "/");
 	fp::Variable	*var = new fp::Variable("var");
 	var->setValue("1");
 	mod->addObject(var);
@@ -412,7 +432,7 @@ int	multiple_lines()
 {
 	fp::FileParser	fp;
 	fp::Module 		*result;
-	fp::Module		expected("", &fp);
+	fp::Module		expected("", &fp, "");
 
 	// File parsing
 	fp.setFileName("files/multiple_lines");
@@ -421,7 +441,7 @@ int	multiple_lines()
 	// Expected module
 	{
 		{
-			fp::Module		*mod = new fp::Module("module", &fp);
+			fp::Module		*mod = new fp::Module("module", &fp, "/");
 			{
 				fp::Variable	*var = new fp::Variable("var");
 				var->setValue("1");
@@ -435,7 +455,7 @@ int	multiple_lines()
 			expected.addObject(mod);
 		}
 		{
-			fp::Module		*mod = new fp::Module("module2", &fp);
+			fp::Module		*mod = new fp::Module("module2", &fp, "/");
 			{
 				fp::Variable	*var = new fp::Variable("var");
 				var->setValue("\"1\"");
@@ -472,7 +492,7 @@ int	simple_compact()
 {
 	fp::FileParser	fp;
 	fp::Module 		*result;
-	fp::Module		expected("", &fp);
+	fp::Module		expected("", &fp, "");
 
 	// File parsing
 	fp.setFileName("files/simple_compact");
@@ -481,7 +501,7 @@ int	simple_compact()
 	// Expected module
 	{
 		{
-			fp::Module		*mod = new fp::Module("module", &fp);
+			fp::Module		*mod = new fp::Module("module", &fp, "/");
 			{
 				fp::Variable	*var = new fp::Variable("var");
 				var->setValue("1");
@@ -518,7 +538,7 @@ int	global_test()
 {
 	fp::FileParser	fp;
 	fp::Module 		*result;
-	fp::Module		expected("", &fp);
+	fp::Module		expected("", &fp, "");
 
 	// File parsing
 	fp.setFileName("files/global_test");
@@ -527,7 +547,7 @@ int	global_test()
 	// Expected module
 	{
 		{
-			fp::Module		*mod = new fp::Module("module", &fp);
+			fp::Module		*mod = new fp::Module("module", &fp, "/");
 			{
 				fp::Variable	*var = new fp::Variable("\"key\"");
 				var->setValue("\"value1\"");
@@ -547,7 +567,7 @@ int	global_test()
 				mod->addObject(var);
 			}
 			{
-				fp::Module		*mod2 = new fp::Module("\"module\"", &fp);
+				fp::Module		*mod2 = new fp::Module("\"module\"", &fp, "/module/");
 				{
 					fp::Variable	*var = new fp::Variable("\"key\"");
 					var->setValue("\"value\"");
@@ -556,7 +576,7 @@ int	global_test()
 				mod->addObject(mod2);
 			}
 			{
-				fp::Module		*mod2 = new fp::Module("module", &fp);
+				fp::Module		*mod2 = new fp::Module("module", &fp, "/module/");
 				{
 					fp::Variable	*var = new fp::Variable("\"key\"");
 					var->setValue("\"value\"");
@@ -565,7 +585,7 @@ int	global_test()
 				mod->addObject(mod2);
 			}
 			{
-				fp::Module		*mod2 = new fp::Module("\"module\"", &fp);
+				fp::Module		*mod2 = new fp::Module("\"module\"", &fp, "/module/");
 				{
 					fp::Variable	*var = new fp::Variable("\"key\"");
 					var->setValue("\"value\"");
@@ -574,7 +594,7 @@ int	global_test()
 				mod->addObject(mod2);
 			}
 			{
-				fp::Module		*mod2 = new fp::Module("module", &fp);
+				fp::Module		*mod2 = new fp::Module("module", &fp, "/module/");
 				{
 					fp::Variable	*var = new fp::Variable("\"key\"");
 					var->setValue("\"value\"");
@@ -583,7 +603,7 @@ int	global_test()
 				mod->addObject(mod2);
 			}
 			{
-				fp::Module		*mod2 = new fp::Module("module_name", &fp);
+				fp::Module		*mod2 = new fp::Module("module_name", &fp, "/module/");
 				mod2->addAttribute("module_var");
 				{
 					fp::Variable	*var = new fp::Variable("key");
@@ -593,7 +613,7 @@ int	global_test()
 				mod->addObject(mod2);
 			}
 			{
-				fp::Module		*mod2 = new fp::Module("\"array\"", &fp);
+				fp::Module		*mod2 = new fp::Module("\"array\"", &fp, "/module/");
 				{
 					fp::Variable	*var = new fp::Variable("\"item1\"");
 					mod2->addObject(var);
@@ -605,7 +625,7 @@ int	global_test()
 				mod->addObject(mod2);
 			}
 			{
-				fp::Module		*mod2 = new fp::Module("array", &fp);
+				fp::Module		*mod2 = new fp::Module("array", &fp, "/module/");
 				{
 					fp::Variable	*var = new fp::Variable("\"item1\"");
 					mod2->addObject(var);
@@ -642,7 +662,7 @@ int	simple_module_no_value()
 {
 	fp::FileParser	fp;
 	fp::Module 		*result;
-	fp::Module		expected("", &fp);
+	fp::Module		expected("", &fp, "");
 
 	// File parsing
 	fp.setFileName("files/simple_module_no_value");
@@ -651,7 +671,7 @@ int	simple_module_no_value()
 	// Expected module
 	{
 		{
-			fp::Module		*mod = new fp::Module("module", &fp);
+			fp::Module		*mod = new fp::Module("module", &fp, "/");
 			{
 				fp::Variable	*var = new fp::Variable("var");
 				mod->addObject(var);
@@ -682,7 +702,7 @@ int	special_end_test()
 {
 	fp::FileParser	fp;
 	fp::Module 		*result;
-	fp::Module		expected("", &fp);
+	fp::Module		expected("", &fp, "");
 
 	// File parsing
 	fp.setFileName("files/special_end_test");
@@ -691,7 +711,7 @@ int	special_end_test()
 	// Expected module
 	{
 		{
-			fp::Module		*mod = new fp::Module("mod", &fp);
+			fp::Module		*mod = new fp::Module("mod", &fp, "/");
 			{
 				fp::Variable	*var = new fp::Variable("var");
 				mod->addObject(var);
@@ -699,7 +719,7 @@ int	special_end_test()
 			expected.addObject(mod);
 		}
 		{
-			fp::Module		*mod = new fp::Module("mod2", &fp);
+			fp::Module		*mod = new fp::Module("mod2", &fp, "/");
 			{
 				fp::Variable	*var = new fp::Variable("var");
 				var->addAttribute("attr1");
@@ -708,7 +728,7 @@ int	special_end_test()
 			expected.addObject(mod);
 		}
 		{
-			fp::Module		*mod = new fp::Module("mod3", &fp);
+			fp::Module		*mod = new fp::Module("mod3", &fp, "/");
 			{
 				fp::Variable	*var = new fp::Variable("var");
 				var->addAttribute("attr1");
@@ -745,7 +765,7 @@ int	test_json()
 {
 	fp::FileParser	fp;
 	fp::Module 		*result;
-	fp::Module		expected("", &fp);
+	fp::Module		expected("", &fp, "");
 
 	// File parsing
 	fp.setFileName("files/test.json");
@@ -754,7 +774,7 @@ int	test_json()
 	// Expected module
 	{
 		{
-			fp::Module *mod = new fp::Module("", &fp);
+			fp::Module *mod = new fp::Module("", &fp, "/");
 			{
 				fp::Variable *var = new fp::Variable("\"key\"");
 				var->setValue("\"value\"");
@@ -776,7 +796,7 @@ int	test_json()
 				mod->addObject(var);
 			}
 			{
-				fp::Module *mod2 = new fp::Module("\"object\"", &fp);
+				fp::Module *mod2 = new fp::Module("\"object\"", &fp, "//");
 				{
 					fp::Variable *var = new fp::Variable("\"key\"");
 					var->setValue("\"value\"");
@@ -785,7 +805,7 @@ int	test_json()
 				mod->addObject(mod2);
 			}
 			{
-				fp::Module *mod2 = new fp::Module("\"array\"", &fp);
+				fp::Module *mod2 = new fp::Module("\"array\"", &fp, "//");
 				{
 					fp::Variable *var = new fp::Variable("\"item1\"");
 					mod2->addObject(var);
@@ -797,9 +817,9 @@ int	test_json()
 				mod->addObject(mod2);
 			}
 			{
-				fp::Module *mod2 = new fp::Module("\"arrayOfObjects\"", &fp);
+				fp::Module *mod2 = new fp::Module("\"arrayOfObjects\"", &fp, "//");
 				{
-					fp::Module *mod3 = new fp::Module("", &fp);
+					fp::Module *mod3 = new fp::Module("", &fp, "//\"arrayOfObjects\"/");
 					{
 						fp::Variable *var = new fp::Variable("\"key\"");
 						var->setValue("\"value\"");
@@ -808,7 +828,7 @@ int	test_json()
 					mod2->addObject(mod3);
 				}
 				{
-					fp::Module *mod3 = new fp::Module("", &fp);
+					fp::Module *mod3 = new fp::Module("", &fp, "//\"arrayOfObjects\"/");
 					{
 						fp::Variable *var = new fp::Variable("\"key\"");
 						var->setValue("\"value\"");
@@ -844,7 +864,7 @@ int	webserv_conf()
 {
 	fp::FileParser	fp;
 	fp::Module 		*result;
-	fp::Module		expected("", &fp);
+	fp::Module		expected("", &fp, "");
 
 	// File parsing
 	fp.setFileName("files/webserv.conf");
@@ -853,7 +873,7 @@ int	webserv_conf()
 	// Expected module
 	{
 		{
-			fp::Module *mod = new fp::Module("server", &fp);
+			fp::Module *mod = new fp::Module("server", &fp, "/");
 			{
 				fp::Variable *var = new fp::Variable("listen");
 				var->addAttribute("8080");
@@ -928,7 +948,7 @@ int	webserv_conf()
 				mod->addObject(var);
 			}
 			{
-				fp::Module *mod2 = new fp::Module("location", &fp);
+				fp::Module *mod2 = new fp::Module("location", &fp, "/server/");
 				mod2->addAttribute("/");
 				{
 					fp::Variable *var = new fp::Variable("allow_methods");
@@ -949,7 +969,7 @@ int	webserv_conf()
 				mod->addObject(mod2);
 			}
 			{
-				fp::Module *mod2 = new fp::Module("location", &fp);
+				fp::Module *mod2 = new fp::Module("location", &fp, "/server/");
 				mod2->addAttribute("/css");
 				{
 					fp::Variable *var = new fp::Variable("allow_methods");
@@ -964,7 +984,7 @@ int	webserv_conf()
 				mod->addObject(mod2);
 			}
 			{
-				fp::Module *mod2 = new fp::Module("location", &fp);
+				fp::Module *mod2 = new fp::Module("location", &fp, "/server/");
 				mod2->addAttribute("/php");
 				{
 					fp::Variable *var = new fp::Variable("allow_methods");
@@ -990,7 +1010,7 @@ int	webserv_conf()
 				mod->addObject(mod2);
 			}
 			{
-				fp::Module *mod2 = new fp::Module("location", &fp);
+				fp::Module *mod2 = new fp::Module("location", &fp, "/server/");
 				mod2->addAttribute("/python");
 				{
 					fp::Variable *var = new fp::Variable("allow_methods");
@@ -1016,7 +1036,7 @@ int	webserv_conf()
 				mod->addObject(mod2);
 			}
 			{
-				fp::Module *mod2 = new fp::Module("location", &fp);
+				fp::Module *mod2 = new fp::Module("location", &fp, "/server/");
 				mod2->addAttribute("/html/kitty");
 				{
 					fp::Variable *var = new fp::Variable("allow_methods");
@@ -1037,7 +1057,7 @@ int	webserv_conf()
 				mod->addObject(mod2);
 			}
 			{
-				fp::Module *mod2 = new fp::Module("location", &fp);
+				fp::Module *mod2 = new fp::Module("location", &fp, "/server/");
 				mod2->addAttribute("/upload");
 				{
 					fp::Variable *var = new fp::Variable("allow_methods");
@@ -1054,7 +1074,7 @@ int	webserv_conf()
 				mod->addObject(mod2);
 			}
 			{
-				fp::Module *mod2 = new fp::Module("location", &fp);
+				fp::Module *mod2 = new fp::Module("location", &fp, "/server/");
 				mod2->addAttribute("/img");
 				{
 					fp::Variable *var = new fp::Variable("allow_methods");
@@ -1070,7 +1090,7 @@ int	webserv_conf()
 				mod->addObject(mod2);
 			}
 			{
-				fp::Module *mod2 = new fp::Module("location", &fp);
+				fp::Module *mod2 = new fp::Module("location", &fp, "/server/");
 				mod2->addAttribute("/img/toDelete");
 				{
 					fp::Variable *var = new fp::Variable("allow_methods");

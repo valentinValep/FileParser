@@ -185,7 +185,7 @@ namespace fp
 	{
 		std::string			fileContent = this->_openFile();
 		std::vector<Token>	tokens;
-		Module				*mod = new Module(this);
+		Module				*mod = new Module(this, "");
 
 		//std::cout << "\033[1m" << this->_fileName << "\033[0m:\nFile content: " << fileContent << std::endl;
 
@@ -255,6 +255,35 @@ namespace fp
 	{
 		this->_module_name_presence = REQUIRED;
 		return (this);
+	}
+
+	void FileParser::addToWhitelist(const std::string &str)
+	{
+		this->_whitelist.push_back(str);
+	}
+
+	void FileParser::removeFromWhitelist(const std::string &str)
+	{
+		for (std::vector<std::string>::iterator it = this->_whitelist.begin(); it != this->_whitelist.end(); ++it)
+		{
+			if (*it == str)
+			{
+				this->_whitelist.erase(it);
+				return ;
+			}
+		}
+	}
+
+	bool FileParser::isWhitelisted(const std::string &str)
+	{
+		if (this->_whitelist.empty())
+			return (true);
+		for (std::vector<std::string>::iterator it = this->_whitelist.begin(); it != this->_whitelist.end(); ++it)
+		{
+			if (*it == str)
+				return (true);
+		}
+		return (false);
 	}
 
 	FileParser::FileParserSyntaxException::FileParserSyntaxException(const std::string &msg, std::string file, int line)

@@ -28,6 +28,7 @@ namespace fp
 	{
 	private:
 		// Attributes
+		std::vector<std::string>	_whitelist;
 		std::string					_fileName;
 		std::string					_white_spaces;
 		std::string					_line_separators;
@@ -83,6 +84,9 @@ namespace fp
 		FileParser			*banModuleName();
 		FileParser			*allowModuleName();
 		FileParser			*forceModuleName();
+		void				addToWhitelist(const std::string &str);
+		void				removeFromWhitelist(const std::string &str);
+		bool				isWhitelisted(const std::string &str);
 
 		// Exceptions
 		class FileParserException: public std::exception

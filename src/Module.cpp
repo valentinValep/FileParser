@@ -8,13 +8,13 @@ namespace fp
 	Module::Module(): Object(), _file_parser(NULL), _objects()
 	{}
 
-	Module::Module(const Module &src): Object(src), _file_parser(src._file_parser), _objects(src._objects)
+	Module::Module(const Module &src): Object(src), _file_parser(src._file_parser), _objects(src._objects), _path(src._path)
 	{}
 
-	Module::Module(FileParser *file_parser): Object(), _file_parser(file_parser), _objects()
+	Module::Module(FileParser *file_parser, const std::string &path): Object(), _file_parser(file_parser), _objects(), _path(path)
 	{}
 
-	Module::Module(const std::string &name, FileParser *file_parser): Object(name), _file_parser(file_parser), _objects()
+	Module::Module(const std::string &name, FileParser *file_parser, const std::string &path): Object(name), _file_parser(file_parser), _objects(), _path(path)
 	{}
 
 	Module::~Module()
@@ -37,7 +37,7 @@ namespace fp
 			if (!(*this->_objects[i] == *mod->_objects[i]))
 				return (false);
 		}
-		return (Object::operator==(src));
+		return (Object::operator==(src) && this->_path == mod->_path);
 	}
 
 	Module	&Module::operator=(const Module &src)
@@ -78,13 +78,24 @@ namespace fp
 		return (WORD);
 	}
 
-	void Module::build_objects(std::vector<Token>::iterator begin, std::vector<Token>::iterator end)
+	void	Module::addNewVariable(const std::string &name, const std::string &value, const std::vector<std::string> &attributes, int line)
 	{
-		std::string					name;
-		std::vector<std::string>	attributes;
-		e_TokenType					token_type;
-		e_ParseState				parse_state = DEFAULT;
-		int							module_brace_count = 0;
+		if (!this->_file_parser->isWhitelisted(name))
+			throw FileParser::FileParserSyntaxException("Variable name is not whitelisted", this->_file_parser->getFileName(), line);
+		Variable *var = new Variable(name);
+		_objects.push_back(var);
+		if (!value.empty())
+			var->setValue(value);
+		var->setAttributes(attributes);
+	}
+
+	void	Module::build_objects(std::vector<Token>::iterator begin, std::vector<Token>::iterator end)
+	{
+		std::string						name;
+		std::vector<std::string>		attributes;
+		e_TokenType						token_type;
+		e_ParseState					parse_state = DEFAULT;
+		int								module_brace_count = 0;
 		std::vector<Token>::iterator	module_begin;
 
 		if (!this->_file_parser)
@@ -111,7 +122,7 @@ namespace fp
 					{
 						if (name.empty() && this->_file_parser->getModuleNamePresence() == REQUIRED)
 							throw FileParser::FileParserSyntaxException("Modules need name", this->_file_parser->getFileName(), (*it).getLine());
-						Module *mod = new Module(name, this->_file_parser);
+						Module *mod = new Module(name, this->_file_parser, this->_path + this->getName() + "/");
 						_objects.push_back(mod);
 						mod->setAttributes(attributes);
 						name.clear();
@@ -131,10 +142,7 @@ namespace fp
 					throw FileParser::FileParserSyntaxException("Assignement must be followed by a value", this->_file_parser->getFileName(), (*it).getLine());
 				if (name.empty())
 					throw FileParser::FileParserSyntaxException("Variable name can't be empty", this->_file_parser->getFileName(), (*it).getLine());
-				Variable *var = new Variable(name);
-				_objects.push_back(var);
-				var->setValue((*it).getStr());
-				var->setAttributes(attributes);
+				this->addNewVariable(name, (*it).getStr(), attributes, (*it).getLine());
 				name.clear();
 				attributes.clear();
 				parse_state = NEED_NEW_LINE;
@@ -156,9 +164,7 @@ namespace fp
 			{
 				if (this->_file_parser->getVariableValuePresence() == REQUIRED)
 					throw FileParser::FileParserSyntaxException("Variables must have a value", this->_file_parser->getFileName(), (*it).getLine());
-				Variable *var = new Variable(name);
-				_objects.push_back(var);
-				_objects.back()->setAttributes(attributes);
+				this->addNewVariable(name, "", attributes, (*it).getLine());
 				name.clear();
 				attributes.clear();
 			}
@@ -184,9 +190,7 @@ namespace fp
 		{
 			if (this->_file_parser->getVariableValuePresence() == REQUIRED)
 				throw FileParser::FileParserSyntaxException("Variables must have a value", this->_file_parser->getFileName(), (*end).getLine());
-			Variable *var = new Variable(name);
-			_objects.push_back(var);
-			_objects.back()->setAttributes(attributes);
+			this->addNewVariable(name, "", attributes, (*end).getLine());
 		}
 	}
 
@@ -204,7 +208,7 @@ namespace fp
 	{
 		for (int i = 0; i < depth; i++)
 			std::cout << "  ";
-		std::cout << this->getName()  << (this->getName().empty()? "{": " {") << std::endl;
+		std::cout << this->getName() << "(" + this->_path + ") {" << std::endl;
 		for (std::vector<Object*>::const_iterator it = this->_objects.begin(); it != this->_objects.end(); ++it)
 		{
 			for (int i = 0; i < depth; i++)
