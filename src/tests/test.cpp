@@ -1123,6 +1123,73 @@ int	webserv_conf()
 	return (0);
 }
 
+int	white_list1()
+{
+	fp::FileParser	fp;
+	fp::Module 		*result;
+	fp::Module		expected("", &fp, "");
+
+	// File parsing
+	fp.setFileName("files/white_list");
+	fp.addToWhitelist("/module/var");
+	result = fp.parse();
+
+	// Expected module
+	fp::Module		*mod = new fp::Module("module", &fp, "/");
+	fp::Variable	*var = new fp::Variable("var");
+	var->setValue("1");
+	mod->addObject(var);
+	expected.addObject(mod);
+
+	// Checking
+	std::cout << "test 1 files/white_list: ";
+	if (*result == expected)
+		std::cout << "✅" << std::endl;
+	else
+	{
+		std::cout << "❌" << std::endl;
+		std::cout << "  Expected:" << std::endl;
+		expected.print(2);
+		std::cout << "  Found:" << std::endl;
+		result->print(2);
+		delete result;
+		return (1);
+	}
+	delete result;
+	return (0);
+}
+
+int	white_list2()
+{
+	fp::FileParser	fp;
+	fp::Module 		*result;
+
+	// File parsing
+	fp.setFileName("files/white_list");
+	fp.addToWhitelist("/module");
+
+	try {
+		result = fp.parse();
+	}
+	catch (fp::FileParser::FileParserSyntaxException &e)
+	{
+		std::cout << "test 2 files/white_list: ✅" << std::endl;
+		return (0);
+	}
+	std::cout << "test 2 files/white_list: ❌" << std::endl;
+	delete result;
+	return (1);
+}
+
+int	white_list()
+{
+	if (white_list1())
+		return (1);
+	if (white_list2())
+		return (1);
+	return (0);
+}
+
 int	main(void)
 {
 	int	ret;
@@ -1156,6 +1223,9 @@ int	main(void)
 		global_ret += ret;
 
 	if ((ret = webserv_conf()))
+		global_ret += ret;
+
+	if ((ret = white_list()))
 		global_ret += ret;
 
 

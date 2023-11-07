@@ -80,8 +80,8 @@ namespace fp
 
 	void	Module::addNewVariable(const std::string &name, const std::string &value, const std::vector<std::string> &attributes, int line)
 	{
-		if (!this->_file_parser->isWhitelisted(name))
-			throw FileParser::FileParserSyntaxException("Variable name is not whitelisted", this->_file_parser->getFileName(), line);
+		if (!this->_file_parser->isWhitelisted(this->_path + this->getName() + "/" + name))
+			throw FileParser::FileParserSyntaxException("Unexpected name \"" + this->_path + this->getName() + "/" + name +"\"", this->_file_parser->getFileName(), line);
 		Variable *var = new Variable(name);
 		_objects.push_back(var);
 		if (!value.empty())
