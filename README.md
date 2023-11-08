@@ -10,7 +10,7 @@ FileParser is a c++ library that can be used to parse different file types. The 
 - change whitelist and requirementlist exception
 - attribute presence
 - last attribute become value
-- Add a check of double like requirement list
+- Add a check of unique variable names (for 2 possibility: for all the file and with path (unique name in a module))
 - blacklist for module names
 - blacklist for variable names
 - Need coma after end of module -> json = true, conf = false
@@ -18,32 +18,6 @@ FileParser is a c++ library that can be used to parse different file types. The 
 - Add requirement list for mix module names and variable names (more tests ?)
 
 ## TO TEST
-```
-mod {
-	var,
-}
-```
-```
-mod {
-	var
-```
-```
-mod {
-	var,
-```
-```
-mod {
-```
-```
-mod {
-	var,,
-}
-```
-```
-mod {
-	var,,var
-}
-```
 ``` unique variable names
 mod {
 	var,

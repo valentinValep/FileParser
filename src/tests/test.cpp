@@ -613,6 +613,40 @@ int	simple_module_test()
 	return (0);
 }
 
+int	simple_module_comma()
+{
+	fp::FileParser	fp;
+	fp::Module 		*result;
+	fp::Module		expected("", &fp, "");
+
+	// File parsing
+	fp.setFileName("files/simple_module_comma");
+	result = fp.parse();
+
+	// Expected module
+	fp::Module		*mod = new fp::Module("mod", &fp, "/");
+	fp::Variable	*var = new fp::Variable("var");
+	mod->addObject(var);
+	expected.addObject(mod);
+
+	// Checking
+	std::cout << "test files/simple_module_comma: ";
+	if (*result == expected)
+		std::cout << "✅" << std::endl;
+	else
+	{
+		std::cout << "❌" << std::endl;
+		std::cout << "  Expected:" << std::endl;
+		expected.print(2);
+		std::cout << "  Found:" << std::endl;
+		result->print(2);
+		delete result;
+		return (1);
+	}
+	delete result;
+	return (0);
+}
+
 int	multiple_lines()
 {
 	fp::FileParser	fp;
@@ -3012,6 +3046,148 @@ int	module_name_presence()
 	return (global_ret);
 }
 
+int	bad_end()
+{
+	fp::FileParser	fp;
+	fp::Module 		*result;
+
+	// File parsing
+	fp.setFileName("files/bad_end");
+
+	try {
+		result = fp.parse();
+	}
+	catch (fp::FileParser::FileParserSyntaxException &e)
+	{
+		std::cout << "test 3 files/bad_end: ✅: " << e.what() << std::endl;
+		return (0);
+	}
+	std::cout << "test 3 files/bad_end: ❌" << std::endl;
+	delete result;
+	return (1);
+}
+
+int	bad_end_nl()
+{
+	fp::FileParser	fp;
+	fp::Module 		*result;
+
+	// File parsing
+	fp.setFileName("files/bad_end_nl");
+
+	try {
+		result = fp.parse();
+	}
+	catch (fp::FileParser::FileParserSyntaxException &e)
+	{
+		std::cout << "test 3 files/bad_end_nl: ✅: " << e.what() << std::endl;
+		return (0);
+	}
+	std::cout << "test 3 files/bad_end_nl: ❌" << std::endl;
+	delete result;
+	return (1);
+}
+
+int	bad_end_2()
+{
+	fp::FileParser	fp;
+	fp::Module 		*result;
+
+	// File parsing
+	fp.setFileName("files/bad_end_2");
+
+	try {
+		result = fp.parse();
+	}
+	catch (fp::FileParser::FileParserSyntaxException &e)
+	{
+		std::cout << "test 3 files/bad_end_2: ✅: " << e.what() << std::endl;
+		return (0);
+	}
+	std::cout << "test 3 files/bad_end_2: ❌" << std::endl;
+	delete result;
+	return (1);
+}
+
+int	bad_end_3()
+{
+	fp::FileParser	fp;
+	fp::Module 		*result;
+
+	// File parsing
+	fp.setFileName("files/bad_end_3");
+
+	try {
+		result = fp.parse();
+	}
+	catch (fp::FileParser::FileParserSyntaxException &e)
+	{
+		std::cout << "test 3 files/bad_end_3: ✅: " << e.what() << std::endl;
+		return (0);
+	}
+	std::cout << "test 3 files/bad_end_3: ❌" << std::endl;
+	delete result;
+	return (1);
+}
+
+int	bad_end_tests()
+{
+	int	ret;
+	int	global_ret = 0;
+
+	if ((ret = bad_end()))
+		global_ret += 1;
+	if ((ret = bad_end_nl()))
+		global_ret += 1;
+	if ((ret = bad_end_2()))
+		global_ret += 1;
+	if ((ret = bad_end_3()))
+		global_ret += 1;
+	return (global_ret);
+}
+
+int	bad_double_comma()
+{
+	fp::FileParser	fp;
+	fp::Module 		*result;
+
+	// File parsing
+	fp.setFileName("files/bad_double_comma");
+
+	try {
+		result = fp.parse();
+	}
+	catch (fp::FileParser::FileParserSyntaxException &e)
+	{
+		std::cout << "test 3 files/bad_double_comma: ✅: " << e.what() << std::endl;
+		return (0);
+	}
+	std::cout << "test 3 files/bad_double_comma: ❌" << std::endl;
+	delete result;
+	return (1);
+}
+
+int	bad_double_comma_2()
+{
+	fp::FileParser	fp;
+	fp::Module 		*result;
+
+	// File parsing
+	fp.setFileName("files/bad_double_comma_2");
+
+	try {
+		result = fp.parse();
+	}
+	catch (fp::FileParser::FileParserSyntaxException &e)
+	{
+		std::cout << "test 3 files/bad_double_comma_2: ✅: " << e.what() << std::endl;
+		return (0);
+	}
+	std::cout << "test 3 files/bad_double_comma_2: ❌" << std::endl;
+	delete result;
+	return (1);
+}
+
 int	main(void)
 {
 	int	ret;
@@ -3030,6 +3206,9 @@ int	main(void)
 		global_ret += ret;
 
 	if ((ret = simple_module_test()))
+		global_ret += ret;
+
+	if ((ret = simple_module_comma()))
 		global_ret += ret;
 
 	if ((ret = multiple_lines()))
@@ -3063,6 +3242,15 @@ int	main(void)
 		global_ret += ret;
 
 	if ((ret = requirement_list()))
+		global_ret += ret;
+
+	if ((ret = bad_end_tests()))
+		global_ret += ret;
+
+	if ((ret = bad_double_comma()))
+		global_ret += ret;
+
+	if ((ret = bad_double_comma_2()))
 		global_ret += ret;
 
 	if (global_ret)

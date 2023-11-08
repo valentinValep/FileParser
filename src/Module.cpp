@@ -171,6 +171,8 @@ namespace fp
 			}
 			else if (token_type == LINE_SEPARATOR)
 			{
+				if (name.empty())
+					throw FileParser::FileParserSyntaxException("Variable name can't be empty", this->_file_parser->getFileName(), (*it).getLine());
 				if (this->_file_parser->getVariableValuePresence() == REQUIRED)
 					throw FileParser::FileParserSyntaxException("Variables must have a value", this->_file_parser->getFileName(), (*it).getLine());
 				this->createNewVariable(name, "", attributes, (*it).getLine());
