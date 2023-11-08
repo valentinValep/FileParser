@@ -5,17 +5,17 @@ FileParser is a c++ library that can be used to parse different file types. The 
 
 # ROADMAP
 ## TODO
-- Add requirement list for mix module names and variable names (ex: "/module1/variable1")
-- Add a check of double like requirement list
 - variable value presence (tests)
 - module name presence (tests)
 - change whitelist and requirementlist exception
 - attribute presence
 - last attribute become value
+- Add a check of double like requirement list
 - blacklist for module names
 - blacklist for variable names
 - Need coma after end of module -> json = true, conf = false
 - Add whitelist for module names (More tests ?)
+- Add requirement list for mix module names and variable names (more tests ?)
 
 ## TO TEST
 ```

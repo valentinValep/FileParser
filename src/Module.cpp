@@ -206,9 +206,9 @@ namespace fp
 		return ("Module");
 	}
 
-	bool Module::contains(const std::string &name) const
+	bool Module::contains(const std::string &path) const
 	{
-		std::string	child = name.substr(1);
+		std::string	child = path.substr(1);
 		std::string	module_name = child.substr(0, child.find('/'));
 
 		for (std::vector<Object*>::const_iterator it = this->_objects.begin(); it != this->_objects.end(); ++it)
