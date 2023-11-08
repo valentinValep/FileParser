@@ -154,7 +154,7 @@ namespace fp
 
 	std::vector<Token>	FileParser::_tokenize(const std::string &str)
 	{
-		std::vector<Token>	tokens;
+		std::vector<Token>			tokens;
 		std::string					token;
 		std::string					separators;
 		int							row;
@@ -178,6 +178,11 @@ namespace fp
 					tokens.push_back(Token(std::string(1, *it), row));
 			}
 		}
+		if (!token.empty())
+		{
+			tokens.push_back(Token(token, row));
+			token.clear();
+		}
 		return (tokens);
 	}
 
@@ -195,6 +200,8 @@ namespace fp
 		//for (std::vector<std::string>::const_iterator it = tokens.begin(); it != tokens.end(); ++it)
 		//	std::cout << "<" << *it << "> ";
 		//std::cout << std::endl;
+
+		//std::cout << "DEBUG: " << tokens.end()->getStr() << std::endl;
 
 		try {
 			mod->build_objects(tokens.begin(), tokens.end());

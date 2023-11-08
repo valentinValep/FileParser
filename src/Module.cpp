@@ -93,6 +93,8 @@ namespace fp
 	{
 		if (name.empty() && this->_file_parser->getModuleNamePresence() == REQUIRED)
 			throw FileParser::FileParserSyntaxException("Modules need name", this->_file_parser->getFileName(), (*it).getLine());
+		if (!name.empty() && this->_file_parser->getModuleNamePresence() == FORBIDDEN)
+			throw FileParser::FileParserSyntaxException("Modules can't have name", this->_file_parser->getFileName(), (*it).getLine());
 		if (!this->_file_parser->isWhitelisted(this->_path + this->getName() + "/" + name + "/"))
 			throw FileParser::FileParserSyntaxException("Unexpected name \"" + this->_path + this->getName() + "/" + name + "/" +"\"", this->_file_parser->getFileName(), (*it).getLine());
 		Module *mod = new Module(name, this->_file_parser, this->_path + this->getName() + "/");
@@ -192,12 +194,14 @@ namespace fp
 
 		// End of file
 		if (parse_state != DEFAULT && parse_state != CAN_NEW_LINE && parse_state != NEED_NEW_LINE)
-			throw FileParser::FileParserSyntaxException("Unexpected end of file", this->_file_parser->getFileName(), (*end).getLine());
+			throw FileParser::FileParserSyntaxException("Unexpected end of module", this->_file_parser->getFileName(), (*(end - 1)).getLine());
+		//std::cout << "DEBUG: name: \"" << name << "\"" << std::endl;
+		//std::cout << "DEBUG: " << (!name.empty()) << std::endl;
 		if (!name.empty())
 		{
 			if (this->_file_parser->getVariableValuePresence() == REQUIRED)
-				throw FileParser::FileParserSyntaxException("Variables must have a value", this->_file_parser->getFileName(), (*end).getLine());
-			this->createNewVariable(name, "", attributes, (*end).getLine());
+				throw FileParser::FileParserSyntaxException("Variables must have a value", this->_file_parser->getFileName(), (*(end - 1)).getLine());
+			this->createNewVariable(name, "", attributes, (*(end - 1)).getLine());
 		}
 	}
 
