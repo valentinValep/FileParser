@@ -266,31 +266,22 @@ namespace fp
 
 	void FileParser::addToWhitelist(const std::string &str)
 	{
-		this->_whitelist.push_back(str);
-	}
+		std::string					path;
 
-	void FileParser::removeFromWhitelist(const std::string &str)
-	{
-		for (std::vector<std::string>::iterator it = this->_whitelist.begin(); it != this->_whitelist.end(); ++it)
+		for (std::string::const_iterator it = str.begin(); it != str.end(); ++it)
 		{
-			if (*it == str)
-			{
-				this->_whitelist.erase(it);
-				return ;
-			}
+			path += *it;
+			if (*it == '/')
+				this->_whitelist.insert(path);
 		}
+		this->_whitelist.insert(path);
 	}
 
 	bool FileParser::isWhitelisted(const std::string &str)
 	{
 		if (this->_whitelist.empty())
 			return (true);
-		for (std::vector<std::string>::iterator it = this->_whitelist.begin(); it != this->_whitelist.end(); ++it)
-		{
-			if (*it == str)
-				return (true);
-		}
-		return (false);
+		return (this->_whitelist.find(str) != this->_whitelist.end());
 	}
 
 	FileParser::FileParserSyntaxException::FileParserSyntaxException(const std::string &msg, std::string file, int line)

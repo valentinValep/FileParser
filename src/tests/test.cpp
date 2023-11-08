@@ -393,6 +393,36 @@ int	equal_operator_test()
 	return (0);
 }
 
+int	empty_file()
+{
+	fp::FileParser	fp;
+	fp::Module 		*result;
+	fp::Module		expected("", &fp, "");
+
+	// File parsing
+	fp.setFileName("files/empty_file");
+	result = fp.parse();
+
+	// Expected module
+
+	// Checking
+	std::cout << "test files/empty_file: ";
+	if (*result == expected)
+		std::cout << "✅" << std::endl;
+	else
+	{
+		std::cout << "❌" << std::endl;
+		std::cout << "  Expected:" << std::endl;
+		expected.print(2);
+		std::cout << "  Found:" << std::endl;
+		result->print(2);
+		delete result;
+		return (1);
+	}
+	delete result;
+	return (0);
+}
+
 int	simple_module_test()
 {
 	fp::FileParser	fp;
@@ -1389,6 +1419,9 @@ int	main(void)
 		std::cerr << "equal_operator_test failed: can't continue test while equal_operator_test is failing" << std::endl;
 		return (1);
 	}
+
+	if ((ret = empty_file()))
+		global_ret += ret;
 
 	if ((ret = simple_module_test()))
 		global_ret += ret;

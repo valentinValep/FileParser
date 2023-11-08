@@ -93,6 +93,8 @@ namespace fp
 	{
 		if (name.empty() && this->_file_parser->getModuleNamePresence() == REQUIRED)
 			throw FileParser::FileParserSyntaxException("Modules need name", this->_file_parser->getFileName(), (*it).getLine());
+		if (!this->_file_parser->isWhitelisted(this->_path + this->getName() + "/" + name + "/"))
+			throw FileParser::FileParserSyntaxException("Unexpected name \"" + this->_path + this->getName() + "/" + name + "/" +"\"", this->_file_parser->getFileName(), (*it).getLine());
 		Module *mod = new Module(name, this->_file_parser, this->_path + this->getName() + "/");
 		_objects.push_back(mod);
 		mod->setAttributes(attributes);

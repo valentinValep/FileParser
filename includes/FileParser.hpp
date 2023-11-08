@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <set>
 
 #define DEFAULT_WHITE_SPACES	" \t\n\r\v\f"
 #define DEFAULT_LINE_SEPARATOR	";,"
@@ -28,7 +29,7 @@ namespace fp
 	{
 	private:
 		// Attributes
-		std::vector<std::string>	_whitelist;
+		std::set<std::string>	_whitelist;
 		std::string					_fileName;
 		std::string					_white_spaces;
 		std::string					_line_separators;
@@ -85,7 +86,6 @@ namespace fp
 		FileParser			*allowModuleName();
 		FileParser			*forceModuleName();
 		void				addToWhitelist(const std::string &str);
-		void				removeFromWhitelist(const std::string &str);
 		bool				isWhitelisted(const std::string &str);
 
 		// Exceptions
