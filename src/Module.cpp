@@ -78,7 +78,7 @@ namespace fp
 		return (WORD);
 	}
 
-	void	Module::addNewVariable(const std::string &name, const std::string &value, const std::vector<std::string> &attributes, int line)
+	void	Module::createNewVariable(const std::string &name, const std::string &value, const std::vector<std::string> &attributes, int line)
 	{
 		if (!this->_file_parser->isWhitelisted(this->_path + this->getName() + "/" + name))
 			throw FileParser::FileParserSyntaxException("Unexpected name \"" + this->_path + this->getName() + "/" + name +"\"", this->_file_parser->getFileName(), line);
@@ -87,6 +87,16 @@ namespace fp
 		if (!value.empty())
 			var->setValue(value);
 		var->setAttributes(attributes);
+	}
+
+	void	Module::createNewModule(const std::string &name, const std::vector<std::string> &attributes, std::vector<fp::Token>::iterator module_begin, std::vector<fp::Token>::iterator it)
+	{
+		if (name.empty() && this->_file_parser->getModuleNamePresence() == REQUIRED)
+			throw FileParser::FileParserSyntaxException("Modules need name", this->_file_parser->getFileName(), (*it).getLine());
+		Module *mod = new Module(name, this->_file_parser, this->_path + this->getName() + "/");
+		_objects.push_back(mod);
+		mod->setAttributes(attributes);
+		mod->build_objects(module_begin, it);
 	}
 
 	void	Module::build_objects(std::vector<Token>::iterator begin, std::vector<Token>::iterator end)
@@ -120,14 +130,9 @@ namespace fp
 				{
 					if (module_brace_count == 0)
 					{
-						if (name.empty() && this->_file_parser->getModuleNamePresence() == REQUIRED)
-							throw FileParser::FileParserSyntaxException("Modules need name", this->_file_parser->getFileName(), (*it).getLine());
-						Module *mod = new Module(name, this->_file_parser, this->_path + this->getName() + "/");
-						_objects.push_back(mod);
-						mod->setAttributes(attributes);
+						createNewModule(name, attributes, module_begin, it);
 						name.clear();
 						attributes.clear();
-						mod->build_objects(module_begin, it);
 						parse_state = CAN_NEW_LINE;
 						continue;
 					}
@@ -142,7 +147,7 @@ namespace fp
 					throw FileParser::FileParserSyntaxException("Assignement must be followed by a value", this->_file_parser->getFileName(), (*it).getLine());
 				if (name.empty())
 					throw FileParser::FileParserSyntaxException("Variable name can't be empty", this->_file_parser->getFileName(), (*it).getLine());
-				this->addNewVariable(name, (*it).getStr(), attributes, (*it).getLine());
+				this->createNewVariable(name, (*it).getStr(), attributes, (*it).getLine());
 				name.clear();
 				attributes.clear();
 				parse_state = NEED_NEW_LINE;
@@ -164,7 +169,7 @@ namespace fp
 			{
 				if (this->_file_parser->getVariableValuePresence() == REQUIRED)
 					throw FileParser::FileParserSyntaxException("Variables must have a value", this->_file_parser->getFileName(), (*it).getLine());
-				this->addNewVariable(name, "", attributes, (*it).getLine());
+				this->createNewVariable(name, "", attributes, (*it).getLine());
 				name.clear();
 				attributes.clear();
 			}
@@ -190,7 +195,7 @@ namespace fp
 		{
 			if (this->_file_parser->getVariableValuePresence() == REQUIRED)
 				throw FileParser::FileParserSyntaxException("Variables must have a value", this->_file_parser->getFileName(), (*end).getLine());
-			this->addNewVariable(name, "", attributes, (*end).getLine());
+			this->createNewVariable(name, "", attributes, (*end).getLine());
 		}
 	}
 

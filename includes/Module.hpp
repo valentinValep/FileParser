@@ -38,7 +38,8 @@ namespace fp
 
 		Module();
 		e_TokenType	getTokenType(const std::string &token);
-		void		addNewVariable(const std::string &name, const std::string &value, const std::vector<std::string> &attributes, int line);
+		void		createNewVariable(const std::string &name, const std::string &value, const std::vector<std::string> &attributes, int line);
+		void		createNewModule(const std::string &name, const std::vector<std::string> &attributes, std::vector<fp::Token>::iterator module_begin, std::vector<fp::Token>::iterator it);
 	public:
 		// Constructors & Destructor
 		Module(const Module &src);
