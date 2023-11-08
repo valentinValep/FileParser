@@ -185,7 +185,7 @@ namespace fp
 
 		// End of file
 		if (parse_state != DEFAULT && parse_state != CAN_NEW_LINE && parse_state != NEED_NEW_LINE)
-			throw FileParser::FileParserException("Unexpected end of file");
+			throw FileParser::FileParserSyntaxException("Unexpected end of file", this->_file_parser->getFileName(), (*end).getLine());
 		if (!name.empty())
 		{
 			if (this->_file_parser->getVariableValuePresence() == REQUIRED)

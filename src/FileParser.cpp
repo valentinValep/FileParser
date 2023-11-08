@@ -196,7 +196,14 @@ namespace fp
 		//	std::cout << "<" << *it << "> ";
 		//std::cout << std::endl;
 
-		mod->build_objects(tokens.begin(), tokens.end());
+		try {
+			mod->build_objects(tokens.begin(), tokens.end());
+		}
+		catch (FileParserSyntaxException &e)
+		{
+			delete mod;
+			throw e;
+		}
 
 		return mod;
 	}

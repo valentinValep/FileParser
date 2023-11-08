@@ -1,0 +1,6 @@
+module {
+	var,
+	mod{
+		key = 2
+	}
+}
