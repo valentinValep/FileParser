@@ -79,6 +79,7 @@ namespace fp
 		bool				isBlocOpenSeparator(const std::string &str);
 		bool				isBlocCloseSeparator(const std::string &str);
 		bool				isAssignement(const std::string &str);
+		bool				isWhitelisted(const std::string &str);
 
 		FileParser			*banVariableValue();
 		FileParser			*allowVariableValue();
@@ -87,10 +88,9 @@ namespace fp
 		FileParser			*allowModuleName();
 		FileParser			*forceModuleName();
 		void				addToWhitelist(const std::string &str);
-		bool				isWhitelisted(const std::string &str);
-		void				whitelist(const std::string &str);
+		void				whitelist(const std::string &str); // same as addToWhitelist
 		void				addToRequirementlist(const std::string &str);
-		void				require(const std::string &str);
+		void				require(const std::string &str); // same as addToRequirementlist
 
 		// Exceptions
 		class FileParserException: public std::exception
