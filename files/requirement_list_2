@@ -1,0 +1,13 @@
+module {
+	mod {
+		key = 2
+	},
+	var = 1,
+	mod2 {
+		key = 2
+	},
+	var2,
+	mod3 {
+		key = 2
+	},
+}

@@ -1409,6 +1409,389 @@ int	white_list()
 	return (global_ret);
 }
 
+int	requirement_list_test_1()
+{
+	fp::FileParser	fp;
+	fp::Module 		*result;
+	fp::Module		expected("", &fp, "");
+
+	// File parsing
+	fp.setFileName("files/requirement_list");
+	fp.require("/module/var");
+	result = fp.parse();
+
+	// Expected module
+	fp::Module		*mod = new fp::Module("module", &fp, "/");
+	{
+		fp::Variable	*var = new fp::Variable("var");
+		var->setValue("1");
+		mod->addObject(var);
+	}
+	{
+		fp::Variable	*var = new fp::Variable("var2");
+		mod->addObject(var);
+	}
+	expected.addObject(mod);
+
+	// Checking
+	std::cout << "test 1 files/requirement_list: ";
+	if (*result == expected)
+		std::cout << "✅" << std::endl;
+	else
+	{
+		std::cout << "❌" << std::endl;
+		std::cout << "  Expected:" << std::endl;
+		expected.print(2);
+		std::cout << "  Found:" << std::endl;
+		result->print(2);
+		delete result;
+		return (1);
+	}
+	delete result;
+	return (0);
+}
+
+int	requirement_list_test_2()
+{
+	fp::FileParser	fp;
+	fp::Module 		*result;
+	fp::Module		expected("", &fp, "");
+
+	// File parsing
+	fp.setFileName("files/requirement_list");
+	fp.require("/module");
+	result = fp.parse();
+
+	// Expected module
+	fp::Module		*mod = new fp::Module("module", &fp, "/");
+	{
+		fp::Variable	*var = new fp::Variable("var");
+		var->setValue("1");
+		mod->addObject(var);
+	}
+	{
+		fp::Variable	*var = new fp::Variable("var2");
+		mod->addObject(var);
+	}
+	expected.addObject(mod);
+
+	// Checking
+	std::cout << "test 1 files/requirement_list: ";
+	if (*result == expected)
+		std::cout << "✅" << std::endl;
+	else
+	{
+		std::cout << "❌" << std::endl;
+		std::cout << "  Expected:" << std::endl;
+		expected.print(2);
+		std::cout << "  Found:" << std::endl;
+		result->print(2);
+		delete result;
+		return (1);
+	}
+	delete result;
+	return (0);
+}
+
+int	requirement_list_test_3()
+{
+	fp::FileParser	fp;
+	fp::Module 		*result;
+	fp::Module		expected("", &fp, "");
+
+	// File parsing
+	fp.setFileName("files/requirement_list");
+	fp.require("/module/var2");
+	result = fp.parse();
+
+	// Expected module
+	fp::Module		*mod = new fp::Module("module", &fp, "/");
+	{
+		fp::Variable	*var = new fp::Variable("var");
+		var->setValue("1");
+		mod->addObject(var);
+	}
+	{
+		fp::Variable	*var = new fp::Variable("var2");
+		mod->addObject(var);
+	}
+	expected.addObject(mod);
+
+	// Checking
+	std::cout << "test 1 files/requirement_list: ";
+	if (*result == expected)
+		std::cout << "✅" << std::endl;
+	else
+	{
+		std::cout << "❌" << std::endl;
+		std::cout << "  Expected:" << std::endl;
+		expected.print(2);
+		std::cout << "  Found:" << std::endl;
+		result->print(2);
+		delete result;
+		return (1);
+	}
+	delete result;
+	return (0);
+}
+
+int	requirement_list_test_4()
+{
+	fp::FileParser	fp;
+	fp::Module 		*result;
+
+	// File parsing
+	fp.setFileName("files/requirement_list");
+	fp.require("/module/var3");
+
+	try {
+		result = fp.parse();
+	}
+	catch (fp::FileParser::FileParserSyntaxException &e)
+	{
+		std::cout << "test 2 files/requirement_list: ✅: " << e.what() << std::endl;
+		return (0);
+	}
+	std::cout << "test 2 files/requirement_list: ❌" << std::endl;
+	delete result;
+	return (1);
+}
+
+int	requirement_list_2_test_1()
+{
+	fp::FileParser	fp;
+	fp::Module 		*result;
+	fp::Module		expected("", &fp, "");
+
+	// File parsing
+	fp.setFileName("files/requirement_list_2");
+	fp.require("/module/mod/key");
+	result = fp.parse();
+
+	// Expected module
+	fp::Module		*mod = new fp::Module("module", &fp, "/");
+	{
+		fp::Module	*mod2 = new fp::Module("mod", &fp, "/module/");
+		fp::Variable	*var = new fp::Variable("key");
+		var->setValue("2");
+		mod2->addObject(var);
+		mod->addObject(mod2);
+	}
+	{
+		fp::Variable	*var = new fp::Variable("var");
+		var->setValue("1");
+		mod->addObject(var);
+	}
+	{
+		fp::Module	*mod2 = new fp::Module("mod2", &fp, "/module/");
+		fp::Variable	*var = new fp::Variable("key");
+		var->setValue("2");
+		mod2->addObject(var);
+		mod->addObject(mod2);
+	}
+	{
+		fp::Variable	*var = new fp::Variable("var2");
+		mod->addObject(var);
+	}
+	{
+		fp::Module	*mod2 = new fp::Module("mod3", &fp, "/module/");
+		fp::Variable	*var = new fp::Variable("key");
+		var->setValue("2");
+		mod2->addObject(var);
+		mod->addObject(mod2);
+	}
+	expected.addObject(mod);
+
+	// Checking
+	std::cout << "test 1 files/requirement_list_2: ";
+	if (*result == expected)
+		std::cout << "✅" << std::endl;
+	else
+	{
+		std::cout << "❌" << std::endl;
+		std::cout << "  Expected:" << std::endl;
+		expected.print(2);
+		std::cout << "  Found:" << std::endl;
+		result->print(2);
+		delete result;
+		return (1);
+	}
+	delete result;
+	return (0);
+}
+
+int	requirement_list_2_test_2()
+{
+	fp::FileParser	fp;
+	fp::Module 		*result;
+	fp::Module		expected("", &fp, "");
+
+	// File parsing
+	fp.setFileName("files/requirement_list_2");
+	fp.require("/module/mod2/key");
+	result = fp.parse();
+
+	// Expected module
+	fp::Module		*mod = new fp::Module("module", &fp, "/");
+	{
+		fp::Module	*mod2 = new fp::Module("mod", &fp, "/module/");
+		fp::Variable	*var = new fp::Variable("key");
+		var->setValue("2");
+		mod2->addObject(var);
+		mod->addObject(mod2);
+	}
+	{
+		fp::Variable	*var = new fp::Variable("var");
+		var->setValue("1");
+		mod->addObject(var);
+	}
+	{
+		fp::Module	*mod2 = new fp::Module("mod2", &fp, "/module/");
+		fp::Variable	*var = new fp::Variable("key");
+		var->setValue("2");
+		mod2->addObject(var);
+		mod->addObject(mod2);
+	}
+	{
+		fp::Variable	*var = new fp::Variable("var2");
+		mod->addObject(var);
+	}
+	{
+		fp::Module	*mod2 = new fp::Module("mod3", &fp, "/module/");
+		fp::Variable	*var = new fp::Variable("key");
+		var->setValue("2");
+		mod2->addObject(var);
+		mod->addObject(mod2);
+	}
+	expected.addObject(mod);
+
+	// Checking
+	std::cout << "test 1 files/requirement_list_2: ";
+	if (*result == expected)
+		std::cout << "✅" << std::endl;
+	else
+	{
+		std::cout << "❌" << std::endl;
+		std::cout << "  Expected:" << std::endl;
+		expected.print(2);
+		std::cout << "  Found:" << std::endl;
+		result->print(2);
+		delete result;
+		return (1);
+	}
+	delete result;
+	return (0);
+}
+
+int	requirement_list_2_test_3()
+{
+	fp::FileParser	fp;
+	fp::Module 		*result;
+	fp::Module		expected("", &fp, "");
+
+	// File parsing
+	fp.setFileName("files/requirement_list_2");
+	fp.require("/module/mod3/key");
+	result = fp.parse();
+
+	// Expected module
+	fp::Module		*mod = new fp::Module("module", &fp, "/");
+	{
+		fp::Module	*mod2 = new fp::Module("mod", &fp, "/module/");
+		fp::Variable	*var = new fp::Variable("key");
+		var->setValue("2");
+		mod2->addObject(var);
+		mod->addObject(mod2);
+	}
+	{
+		fp::Variable	*var = new fp::Variable("var");
+		var->setValue("1");
+		mod->addObject(var);
+	}
+	{
+		fp::Module	*mod2 = new fp::Module("mod2", &fp, "/module/");
+		fp::Variable	*var = new fp::Variable("key");
+		var->setValue("2");
+		mod2->addObject(var);
+		mod->addObject(mod2);
+	}
+	{
+		fp::Variable	*var = new fp::Variable("var2");
+		mod->addObject(var);
+	}
+	{
+		fp::Module	*mod2 = new fp::Module("mod3", &fp, "/module/");
+		fp::Variable	*var = new fp::Variable("key");
+		var->setValue("2");
+		mod2->addObject(var);
+		mod->addObject(mod2);
+	}
+	expected.addObject(mod);
+
+	// Checking
+	std::cout << "test 1 files/requirement_list_2: ";
+	if (*result == expected)
+		std::cout << "✅" << std::endl;
+	else
+	{
+		std::cout << "❌" << std::endl;
+		std::cout << "  Expected:" << std::endl;
+		expected.print(2);
+		std::cout << "  Found:" << std::endl;
+		result->print(2);
+		delete result;
+		return (1);
+	}
+	delete result;
+	return (0);
+}
+
+int	requirement_list_2_test_4()
+{
+	fp::FileParser	fp;
+	fp::Module 		*result;
+
+	// File parsing
+	fp.setFileName("files/requirement_list_2");
+	fp.require("/module/mod3/key2");
+
+	try {
+		result = fp.parse();
+	}
+	catch (fp::FileParser::FileParserSyntaxException &e)
+	{
+		std::cout << "test 2 files/requirement_list_2: ✅: " << e.what() << std::endl;
+		return (0);
+	}
+	std::cout << "test 2 files/requirement_list_2: ❌" << std::endl;
+	delete result;
+	return (1);
+}
+
+int	requirement_list()
+{
+	int	ret;
+	int	global_ret = 0;
+
+	if ((ret = requirement_list_test_1()))
+		global_ret += 1;
+	if ((ret = requirement_list_test_2()))
+		global_ret += 1;
+	if ((ret = requirement_list_test_3()))
+		global_ret += 1;
+	if ((ret = requirement_list_test_4()))
+		global_ret += 1;
+	if ((ret = requirement_list_2_test_1()))
+		global_ret += 1;
+	if ((ret = requirement_list_2_test_2()))
+		global_ret += 1;
+	if ((ret = requirement_list_2_test_3()))
+		global_ret += 1;
+	if ((ret = requirement_list_2_test_4()))
+		global_ret += 1;
+	return (global_ret);
+}
+
 int	main(void)
 {
 	int	ret;
@@ -1450,6 +1833,8 @@ int	main(void)
 	if ((ret = white_list()))
 		global_ret += ret;
 
+	if ((ret = requirement_list()))
+		global_ret += ret;
 
 	if (global_ret)
 		std::cout << "total: ❌ (" << global_ret << " errors)" << std::endl;

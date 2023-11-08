@@ -206,6 +206,24 @@ namespace fp
 		return ("Module");
 	}
 
+	bool Module::contains(const std::string &name) const
+	{
+		std::string	child = name.substr(1);
+		std::string	module_name = child.substr(0, child.find('/'));
+
+		for (std::vector<Object*>::const_iterator it = this->_objects.begin(); it != this->_objects.end(); ++it)
+		{
+			if ((*it)->getName() == module_name)
+			{
+				if (child.find('/') == std::string::npos)
+					return (true);
+				else
+					return (dynamic_cast<Module*>(*it)->contains(child.substr(child.find('/'))));
+			}
+		}
+		return false;
+	}
+
 	void Module::print() const
 	{
 		this->print(0);

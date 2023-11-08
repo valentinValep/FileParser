@@ -9,6 +9,7 @@ FileParser is a c++ library that can be used to parse different file types. The 
 - Add a check of double like requirement list
 - variable value presence (tests)
 - module name presence (tests)
+- change whitelist and requirementlist exception
 - attribute presence
 - last attribute become value
 - blacklist for module names

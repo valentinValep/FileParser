@@ -205,6 +205,18 @@ namespace fp
 			throw e;
 		}
 
+		if (this->_requirementlist.empty())
+			return (mod);
+
+		for (std::set<std::string>::const_iterator it = this->_requirementlist.begin(); it != this->_requirementlist.end(); ++it)
+		{
+			if (!mod->contains(*it))
+			{
+				delete mod;
+				throw FileParserSyntaxException("Missing requirement \"" + *it + "\"", this->_fileName, 0);
+			}
+		}
+
 		return mod;
 	}
 
@@ -281,7 +293,23 @@ namespace fp
 	{
 		if (this->_whitelist.empty())
 			return (true);
-		return (this->_whitelist.find(str) != this->_whitelist.end());
+		return (this->_whitelist.find(str) != this->_whitelist.end()
+			|| this->_requirementlist.find(str) != this->_requirementlist.end());
+	}
+
+	void FileParser::whitelist(const std::string &str)
+	{
+		this->addToWhitelist(str);
+	}
+
+	void FileParser::addToRequirementlist(const std::string &str)
+	{
+		this->_requirementlist.insert(str);
+	}
+
+	void FileParser::require(const std::string &str)
+	{
+		this->addToRequirementlist(str);
 	}
 
 	FileParser::FileParserSyntaxException::FileParserSyntaxException(const std::string &msg, std::string file, int line)

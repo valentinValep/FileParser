@@ -29,7 +29,8 @@ namespace fp
 	{
 	private:
 		// Attributes
-		std::set<std::string>	_whitelist;
+		std::set<std::string>		_whitelist;
+		std::set<std::string>		_requirementlist;
 		std::string					_fileName;
 		std::string					_white_spaces;
 		std::string					_line_separators;
@@ -87,6 +88,9 @@ namespace fp
 		FileParser			*forceModuleName();
 		void				addToWhitelist(const std::string &str);
 		bool				isWhitelisted(const std::string &str);
+		void				whitelist(const std::string &str);
+		void				addToRequirementlist(const std::string &str);
+		void				require(const std::string &str);
 
 		// Exceptions
 		class FileParserException: public std::exception
