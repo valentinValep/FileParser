@@ -1957,6 +1957,74 @@ int	requirement_list_2_test_4()
 	return (1);
 }
 
+int	requirement_list_3_test_1()
+{
+	fp::FileParser	fp;
+	fp::Module 		*result;
+
+	// File parsing
+	fp.setFileName("files/requirement_list_3");
+	fp.require("/module/var");
+
+	try {
+		result = fp.parse();
+	}
+	catch (fp::FileParser::FileParserSyntaxException &e)
+	{
+		std::cout << "test 2 files/requirement_list_3: ✅: " << e.what() << std::endl;
+		return (0);
+	}
+	std::cout << "test 2 files/requirement_list_3: ❌" << std::endl;
+	delete result;
+	return (1);
+}
+
+int	requirement_list_4_test_1()
+{
+	fp::FileParser	fp;
+	fp::Module 		*result;
+	fp::Module		expected("", &fp, "");
+
+	// File parsing
+	fp.setFileName("files/requirement_list_4");
+	fp.require("/module/var");
+
+	result = fp.parse();
+
+	// Expected module
+	{
+		fp::Module	*mod = new fp::Module("module", &fp, "/");
+		fp::Variable	*var = new fp::Variable("var");
+		mod->addObject(var);
+		expected.addObject(mod);
+	}
+	{
+		fp::Module	*mod = new fp::Module("module", &fp, "/");
+		fp::Variable	*var = new fp::Variable("var2");
+		fp::Variable	*var2 = new fp::Variable("var");
+		mod->addObject(var);
+		mod->addObject(var2);
+		expected.addObject(mod);
+	}
+
+	// Checking
+	std::cout << "test 1 files/requirement_list_4: ";
+	if (*result == expected)
+		std::cout << "✅" << std::endl;
+	else
+	{
+		std::cout << "❌" << std::endl;
+		std::cout << "  Expected:" << std::endl;
+		expected.print(2);
+		std::cout << "  Found:" << std::endl;
+		result->print(2);
+		delete result;
+		return (1);
+	}
+	delete result;
+	return (0);
+}
+
 int	requirement_list()
 {
 	int	ret;
@@ -1977,6 +2045,10 @@ int	requirement_list()
 	if ((ret = requirement_list_2_test_3()))
 		global_ret += 1;
 	if ((ret = requirement_list_2_test_4()))
+		global_ret += 1;
+	if ((ret = requirement_list_3_test_1()))
+		global_ret += 1;
+	if ((ret = requirement_list_4_test_1()))
 		global_ret += 1;
 	return (global_ret);
 }

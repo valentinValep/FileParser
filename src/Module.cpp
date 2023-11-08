@@ -230,6 +230,27 @@ namespace fp
 		return false;
 	}
 
+	bool Module::hardContains(const std::string &path) const
+	{
+		std::string	child = path.substr(1);
+		std::string	module_name = child.substr(0, child.find('/'));
+		bool		found = false;
+
+		for (std::vector<Object*>::const_iterator it = this->_objects.begin(); it != this->_objects.end(); ++it)
+		{
+			if ((*it)->getName() == module_name)
+			{
+				if (child.find('/') == std::string::npos)
+					return (true);
+				else if (!dynamic_cast<Module*>(*it)->hardContains(child.substr(child.find('/'))))
+					return (false);
+				else
+					found = true;
+			}
+		}
+		return found;
+	}
+
 	void Module::print() const
 	{
 		this->print(0);

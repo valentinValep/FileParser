@@ -60,6 +60,7 @@ namespace fp
 		void						build_objects(std::vector<Token>::iterator begin, std::vector<Token>::iterator end);
 		virtual std::string			getType() const;
 		bool						contains(const std::string &path) const;
+		bool						hardContains(const std::string &path) const;
 		virtual void				print(int depth) const;
 		void						print() const;
 	};

@@ -1,0 +1,8 @@
+module {
+	var
+}
+
+module {
+	var2,
+	var
+}

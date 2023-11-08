@@ -217,7 +217,7 @@ namespace fp
 
 		for (std::set<std::string>::const_iterator it = this->_requirementlist.begin(); it != this->_requirementlist.end(); ++it)
 		{
-			if (!mod->contains(*it))
+			if (!mod->hardContains(*it))
 			{
 				delete mod;
 				throw FileParserSyntaxException("Missing requirement \"" + *it + "\"", this->_fileName, 0);
