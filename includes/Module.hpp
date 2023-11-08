@@ -3,6 +3,7 @@
 #include "Object.hpp"
 #include "FileParser.hpp"
 #include "Token.hpp"
+#include "Variable.hpp"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -63,6 +64,12 @@ namespace fp
 		bool						hardContains(const std::string &path) const;
 		virtual void				print(int depth) const;
 		void						print() const;
+		Object						*getObject(const std::string &name) const;
+		/// \brief Get a variable from the module
+		/// \param name The name of the variable
+		/// \return The variable if found, nullptr otherwise
+		Variable					*getVariable(const std::string &name) const;
+		Module						*getModule(const std::string &name) const;
 	};
 }
 

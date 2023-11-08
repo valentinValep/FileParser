@@ -14,10 +14,12 @@ FileParser is a c++ library that can be used to parse different file types. The 
 - blacklist for module names
 - blacklist for variable names
 - Need coma after end of module -> json = true, conf = false
+- Ban variables value for specific variables name
 - Add whitelist for module names (More tests ?)
 - Add requirement list for mix module names and variable names (more tests ?)
 
 ## TO TEST
+- test different getter of objects (module, variable)
 ``` unique variable names
 mod {
 	var,

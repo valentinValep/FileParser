@@ -256,6 +256,32 @@ namespace fp
 		this->print(0);
 	}
 
+	Object *Module::getObject(const std::string &name) const
+	{
+		for (std::vector<Object*>::const_iterator it = this->_objects.begin(); it != this->_objects.end(); ++it)
+		{
+			if ((*it)->getName() == name)
+				return (*it);
+		}
+		return (NULL);
+	}
+
+	Module *Module::getModule(const std::string &name) const
+	{
+		Object *obj = this->getObject(name);
+		if (obj && obj->getType() == "Module")
+			return (dynamic_cast<Module*>(obj));
+		return (NULL);
+	}
+
+	Variable *Module::getVariable(const std::string &name) const
+	{
+		Object *obj = this->getObject(name);
+		if (obj && obj->getType() == "Variable")
+			return (dynamic_cast<Variable*>(obj));
+		return (NULL);
+	}
+
 	void Module::print(int depth) const
 	{
 		for (int i = 0; i < depth; i++)
