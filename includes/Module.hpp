@@ -70,6 +70,8 @@ namespace fp
 		/// \return The variable if found, nullptr otherwise
 		Variable					*getVariable(const std::string &name) const;
 		Module						*getModule(const std::string &name) const;
+		int							getNbObjects(const std::string &name) const;
+		int							getNbObjects() const;
 	};
 }
 

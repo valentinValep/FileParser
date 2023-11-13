@@ -274,6 +274,23 @@ namespace fp
 		return (NULL);
 	}
 
+	int Module::getNbObjects(const std::string &name) const
+	{ // @TODO: test
+		int	count = 0;
+
+		for (std::vector<Object*>::const_iterator it = this->_objects.begin(); it != this->_objects.end(); ++it)
+		{
+			if ((*it)->getName() == name)
+				++count;
+		}
+		return (count);
+	}
+
+	int Module::getNbObjects() const
+	{ // @TODO: test
+		return this->_objects.size();
+	}
+
 	Variable *Module::getVariable(const std::string &name) const
 	{
 		Object *obj = this->getObject(name);
