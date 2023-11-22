@@ -145,7 +145,7 @@ namespace fp
 
 		ifs.open(this->_fileName.c_str());
 		if (!ifs.is_open())
-			throw FileParserException("Cannot open file");
+			throw FileParserException("Cannot open file " + this->_fileName);
 
 		buffer << ifs.rdbuf();
 		ifs.close();
